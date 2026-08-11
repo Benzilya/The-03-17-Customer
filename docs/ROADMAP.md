@@ -2,7 +2,7 @@
 
 This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
 
-## Current overall progress: ~37%
+## Current overall progress: ~38%
 
 The foundation and Night 1 vertical slice exist. The current focus is Godot 4.7.x stabilization and real local playtesting before the larger authored-quality art/audio and Nights 2–6 content passes.
 
@@ -49,6 +49,15 @@ Expected overall project progress at gate: 100%.
 2. Complete Night 1 end-to-end without blockers.
 3. Lock the visual target and replace the weakest procedural placeholders.
 4. Begin Night 2 only after the core interaction/CCTV/checkout loop is stable.
+
+## Current M6 changes
+
+- Audio prototype variables explicitly typed for strict Godot 4.7.x parsing.
+- Player and checkout prototype scripts hardened against Variant type-inference warnings.
+- Pause menu added for faster QA and restarts.
+- Development time-jump helpers added.
+- Checkout customer waiting position corrected: NPCs now remain on the public side of REGISTER 01 rather than entering the cashier/player space.
+- Customer prototype script explicitly typed for Godot 4.7.x strict warning settings.
 
 ## Current QA helpers
 
