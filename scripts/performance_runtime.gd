@@ -6,6 +6,7 @@ var preset: String = "balanced"
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("performance_runtime")
 	load_and_apply()
 
 func load_and_apply() -> void:
