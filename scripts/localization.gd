@@ -19,7 +19,8 @@ const TEXT := {
 		"objective_watch":"OBJECTIVE: Keep an eye on the entrance and CCTV.", "quiet_0310":"03:10\nThe parking lot has gone completely quiet.",
 		"arrival_0317":"03:17\nThe entrance chime rings.\nNo footsteps follow it.", "objective_check":"OBJECTIVE: Check the customer. Remember the manager's rule.",
 		"unknown_line":"Unknown Customer: \"Long night?\"\n\nA bottle of water rests on the counter.", "night_complete":"NIGHT 1 COMPLETE\nSomething is wrong with Morrow Market.",
-		"serve":"SERVE CUSTOMER", "refuse":"REFUSE SERVICE", "credits_body":"THE 03:17 CUSTOMER\n\nCreated by Benzilya\n\nPrototype development\nOpenAI / ChatGPT collaboration\n\nEngine\nGodot 4\n\nAll art and audio used in release builds will be original, licensed, or properly attributed."
+		"decision_prompt":"03:17 CUSTOMER\nThe cameras say nobody is there.", "serve":"SERVE CUSTOMER", "refuse":"REFUSE SERVICE",
+		"credits_body":"THE 03:17 CUSTOMER\n\nCreated by Benzilya\n\nPrototype development\nOpenAI / ChatGPT collaboration\n\nEngine\nGodot 4\n\nAll art and audio used in release builds will be original, licensed, or properly attributed."
 	},
 	"ru": {
 		"title":"ПОКУПАТЕЛЬ\n03:17", "subtitle":"КАЖДЫЙ ПОКУПАТЕЛЬ ВЫГЛЯДИТ ЧЕЛОВЕКОМ.\nНО НЕ КАЖДЫЙ ИМ ЯВЛЯЕТСЯ.",
@@ -35,7 +36,8 @@ const TEXT := {
 		"objective_watch":"ЗАДАЧА: Следи за входом и камерами наблюдения.", "quiet_0310":"03:10\nНа парковке стало совершенно тихо.",
 		"arrival_0317":"03:17\nЗвенит дверной колокольчик.\nНо шагов не слышно.", "objective_check":"ЗАДАЧА: Проверь покупателя. Помни правило менеджера.",
 		"unknown_line":"Неизвестный покупатель: «Долгая ночь?»\n\nНа стойке стоит бутылка воды.", "night_complete":"НОЧЬ 1 ЗАВЕРШЕНА\nС Morrow Market что-то не так.",
-		"serve":"ОБСЛУЖИТЬ ПОКУПАТЕЛЯ", "refuse":"ОТКАЗАТЬ В ОБСЛУЖИВАНИИ", "credits_body":"THE 03:17 CUSTOMER\n\nАвтор: Benzilya\n\nРазработка прототипа\nпри поддержке OpenAI / ChatGPT\n\nДвижок\nGodot 4\n\nВ финальной версии будут использоваться только оригинальные, лицензированные или корректно атрибутированные материалы."
+		"decision_prompt":"ПОКУПАТЕЛЬ 03:17\nКамеры утверждают, что перед тобой никого нет.", "serve":"ОБСЛУЖИТЬ ПОКУПАТЕЛЯ", "refuse":"ОТКАЗАТЬ В ОБСЛУЖИВАНИИ",
+		"credits_body":"THE 03:17 CUSTOMER\n\nАвтор: Benzilya\n\nРазработка прототипа\nпри поддержке OpenAI / ChatGPT\n\nДвижок\nGodot 4\n\nВ финальной версии будут использоваться только оригинальные, лицензированные или корректно атрибутированные материалы."
 	}
 }
 
