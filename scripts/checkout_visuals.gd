@@ -86,13 +86,6 @@ func _make_item(item_name: String, index: int) -> Node3D:
 		box.mesh = mesh
 		box.position.y = 0.15
 		root.add_child(box)
-	var label: Label3D = Label3D.new()
-	label.text = item_name.to_upper()
-	label.font_size = 16
-	label.position = Vector3(0, 0.38, 0)
-	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-	label.modulate = Color(0.85, 0.88, 0.88)
-	root.add_child(label)
 	return root
 
 func _update_scanned_state(scanned: int) -> void:
