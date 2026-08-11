@@ -2,12 +2,11 @@
 
 This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
 
-## Current overall progress: ~47%
+## Current overall progress: ~48%
 
-Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches the 03:17 decision and the SERVE branch completes to the Night 1 result. The project is now well into the M7 visual-quality phase while continuing bilingual UI cleanup and Night 1 presentation polish.
+Gate A has been reached in a real Godot 4.7.x local playtest. The project is now in the final portion of M7: visual readability, bilingual Night 1 presentation, character refinement and CCTV treatment.
 
 ## Milestones
-
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
 - [x] M2 — Main menu, settings, save bootstrap (6%)
 - [x] M3 — First-person controller and procedural store blockout (6%)
@@ -26,51 +25,39 @@ Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches th
 Total planned weight: 100%.
 
 ## Language commitment
-
-The shipping game must support both English and Russian. Russian is a first-class supported language, not a post-release add-on. Main menu language selection is implemented in Settings and persisted in `user://settings.cfg`. A shared localization dictionary exists in `scripts/localization.gd`, and Night 1 is progressively moving to localized keys.
+The shipping game supports English and Russian as first-class languages. Main-menu selection persists in `user://settings.cfg`. Night 1 localization now includes the story beats plus customer names/dialogue, checkout terminology, movement/interact HUD, results and transaction messages. Remaining hard-coded CCTV labels are scheduled for the final M7 cleanup.
 
 ## Playability gates
-
 ### Gate A — First playable — REACHED
-Night 1 can reach the 03:17 decision and complete the SERVE outcome in a real Godot 4.7.x run.
+Night 1 reaches the 03:17 decision and completes the SERVE outcome in a real Godot 4.7.x run.
 
 ### Gate B — Public-facing vertical slice
-Target: polished Night 1 with improved graphics/audio, bilingual UI/dialogue, and reliable performance.
-Expected overall project progress at gate: ~55–60%.
+Target: polished Night 1 with improved graphics/audio, bilingual UI/dialogue, and reliable performance. Expected overall progress: ~55–60%.
 
 ### Gate C — Content complete alpha
-Target: Nights 1–6 and all ending routes implemented.
-Expected overall project progress at gate: ~85%.
+Target: Nights 1–6 and all ending routes implemented. Expected overall progress: ~85%.
 
 ### Gate D — Release candidate
-Target: optimized, tested, bilingual packaged build with no known blocker bugs.
-Expected overall project progress at gate: 100%.
+Target: optimized, tested, bilingual packaged build with no known blocker bugs. Expected overall progress: 100%.
 
 ## Current priority
-
-1. Finish M7 visual pass with improved materials, refrigerators, shelf dressing, CCTV treatment and customer presentation.
-2. Continue EN/RU cleanup for remaining Night 1 hard-coded HUD and transaction strings.
-3. Verify the REFUSE branch during ongoing QA.
-4. Begin M8 audio quality pass after visual readability is stable.
-5. Reach Gate B before expanding into Night 2.
+1. Wire the expanded EN/RU dictionary through remaining Night 1 HUD/checkout/CCTV code.
+2. Rebuild the signature bearded regular so the approved concept reads naturally rather than as procedural tendrils.
+3. Improve manager-note presentation and prevent 720p text overlap.
+4. Finish CCTV treatment and scene-material/lighting cleanup.
+5. Verify REFUSE branch and then begin M8 audio quality pass.
 
 ## Current M7 changes
-
-- Removed oversized world-space checkout item labels that obscured the camera view.
-- Increased customer waiting distance for more natural checkout framing.
-- Localized the 03:17 decision prompt so Russian mode no longer mixes English text in the central choice panel.
-- Added an M7 visual-quality layer with ceiling grids, fluorescent fixtures, register detailing, window dressing, store clutter and additional scene lighting.
-- Upgraded procedural customer silhouettes with shoulders, chest clothing panel, neck, hair, nose, hands, legs and shoes.
-- Added expanded first-person movement: Space jump, Ctrl crouch with smooth camera/collider transition, and Shift sprint.
-- Fixed the Godot 4.7.x freed-customer reference in the procedural audio monitor.
-- Added a signature Night 1 regular inspired by the approved concept: brown bowler hat, round dark glasses and a highly distinctive curled moustache/beard silhouette.
-- Expanded the refrigerator wall with glass doors, internal shelves, product rows, labels and cold lighting.
-- Added denser shelf products, price tags, a wet-floor sign, cleaning bucket and additional store clutter.
-- Reduced scanner glow intensity so the checkout surface no longer dominates the frame.
-- Real local screenshots are being used as the visual QA source of truth.
+- Improved register framing, store dressing, ceiling fixtures, refrigerators, products and clutter.
+- Improved procedural customer silhouettes and increased customer waiting distance.
+- Added Space jump, Ctrl crouch and Shift sprint.
+- Fixed freed-customer runtime reference in the procedural audio monitor.
+- Added the signature hat/glasses/beard regular as an initial prototype; second character-art pass remains required.
+- Reduced scanner glow based on real gameplay screenshots.
+- Expanded EN/RU dictionary to cover movement HUD, interactions, normal customer names/dialogue, products, checkout states/actions, payment messages and both Night 1 outcomes.
+- Real local screenshots remain the visual QA source of truth.
 
 ## Current controls
-
 - WASD — movement
 - Mouse — look
 - E — interact
@@ -81,14 +68,7 @@ Expected overall project progress at gate: 100%.
 - F8/F9/F10 — QA time jumps (development only)
 
 ## Art direction commitment
-
-Graphics are part of the development scope. The target is stylized indie realism rather than AAA photorealism: believable PBR-like materials, strong fluorescent/night lighting, wet exterior surfaces, readable silhouettes, convincing store clutter, CCTV-specific rendering, and deliberately uncanny customers. Procedural geometry remains a prototyping layer and should progressively be replaced or upgraded where it is most visible to the player.
+Target: stylized indie realism rather than AAA photorealism, with believable materials, strong fluorescent/night lighting, wet exterior surfaces, readable silhouettes, convincing store clutter, CCTV-specific rendering and deliberately uncanny customers. Procedural geometry is a prototyping layer and is progressively replaced/upgraded where most visible.
 
 ## Reporting format
-
-Every development report must state:
-- current milestone;
-- estimated overall completion percentage;
-- work completed in the latest pass;
-- known blockers/risks;
-- next milestone and remaining major work.
+Every development report must state current milestone, estimated overall completion percentage, work completed, known blockers/risks, and next milestone / remaining major work.
