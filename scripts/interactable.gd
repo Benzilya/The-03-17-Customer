@@ -10,7 +10,9 @@ func interact(_player: Node) -> void:
 	if game.has_method("on_interaction"):
 		game.on_interaction(self)
 	var output := message
-	if game.has_method("get_interaction_message"):
-		output = game.get_interaction_message(self, message)
+	if message == "CCTV_DYNAMIC":
+		var current_status = game.get("cctv_status")
+		if current_status != null:
+			output = str(current_status)
 	if game.has_method("show_message"):
 		game.show_message(output)
