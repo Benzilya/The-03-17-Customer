@@ -43,10 +43,10 @@ func _initialize() -> void:
 	game = get_parent()
 	player_body = game.get_node_or_null("Player") as CharacterBody3D
 	rng.randomize()
-	mechanical_player = _make_player("M8Mechanical", -24.0)
-	electrical_player = _make_player("M8Electrical", -28.0)
-	foley_player = _make_player("M8Foley", -11.0)
-	event_player = _make_player("M8Events", -8.0)
+	mechanical_player = _make_player("M8Mechanical", -30.0)
+	electrical_player = _make_player("M8Electrical", -34.0)
+	foley_player = _make_player("M8Foley", -18.0)
+	event_player = _make_player("M8Events", -15.0)
 	mechanical_playback = mechanical_player.get_stream_playback() as AudioStreamGeneratorPlayback
 	electrical_playback = electrical_player.get_stream_playback() as AudioStreamGeneratorPlayback
 	foley_playback = foley_player.get_stream_playback() as AudioStreamGeneratorPlayback
@@ -85,13 +85,13 @@ func _update_mix(delta: float) -> void:
 	var cctv_open: bool = bool(cctv_value) if typeof(cctv_value) == TYPE_BOOL else false
 	var tension: float = clampf((minutes - 175.0) / 22.0, 0.0, 1.0)
 	var dropout_db: float = -13.0 if anomaly_dropout > 0.0 else 0.0
-	mechanical_player.volume_db = lerpf(-25.0, -21.0, tension) + dropout_db
-	electrical_player.volume_db = (-22.0 if cctv_open else -29.0) + tension * 3.0 + dropout_db
+	mechanical_player.volume_db = lerpf(-31.0, -27.0, tension) + dropout_db
+	electrical_player.volume_db = (-28.0 if cctv_open else -35.0) + tension * 2.0 + dropout_db
 	if cctv_open:
 		cctv_noise_clock -= delta
 		if cctv_noise_clock <= 0.0:
-			_play_cctv_static(0.10, 0.13)
-			cctv_noise_clock = rng.randf_range(2.2, 4.8)
+			_play_cctv_static(0.10, 0.07)
+			cctv_noise_clock = rng.randf_range(2.5, 5.2)
 	else:
 		cctv_noise_clock = minf(cctv_noise_clock, 1.4)
 
@@ -131,7 +131,7 @@ func _monitor_events() -> void:
 	if cctv_open != last_cctv_open:
 		last_cctv_open = cctv_open
 		if cctv_open:
-			_play_cctv_static(0.32, 0.30)
+			_play_cctv_static(0.28, 0.15)
 
 	var minutes_value: Variant = game.get("shift_minutes")
 	if typeof(minutes_value) in [TYPE_FLOAT, TYPE_INT]:
@@ -142,18 +142,17 @@ func _monitor_events() -> void:
 
 func _start_0317_sequence() -> void:
 	anomaly_dropout = 1.35
-	_play_event(6, 54.0, 0.50, 1.75)
+	_play_event(6, 54.0, 0.25, 1.75)
 	var timer_a: SceneTreeTimer = get_tree().create_timer(0.62)
 	timer_a.timeout.connect(_0317_false_chime)
 	var timer_b: SceneTreeTimer = get_tree().create_timer(1.28)
 	timer_b.timeout.connect(_0317_return_pressure)
 
 func _0317_false_chime() -> void:
-	# A wrong, lower door chime while CCTV insists nobody arrived.
-	_play_event(7, 415.0, 0.20, 0.48)
+	_play_event(7, 415.0, 0.10, 0.48)
 
 func _0317_return_pressure() -> void:
-	_play_event(6, 43.0, 0.34, 1.10)
+	_play_event(6, 43.0, 0.17, 1.10)
 
 func _play_event(mode: int, frequency: float, strength: float, duration: float) -> void:
 	event_mode = mode
@@ -163,19 +162,18 @@ func _play_event(mode: int, frequency: float, strength: float, duration: float) 
 	event_phase = 0.0
 
 func _play_chime() -> void:
-	_play_event(1, 880.0, 0.28, 0.55)
+	_play_event(1, 880.0, 0.14, 0.55)
 
 func _play_door_close() -> void:
-	_play_event(2, 105.0, 0.22, 0.22)
+	_play_event(2, 105.0, 0.11, 0.22)
 
 func _play_scanner() -> void:
-	_play_event(3, 1480.0, 0.38, 0.09)
+	_play_event(3, 1480.0, 0.18, 0.09)
 
 func _play_payment() -> void:
-	_play_event(4, 620.0, 0.26, 0.48)
+	_play_event(4, 620.0, 0.13, 0.48)
 
 func _play_cctv_static(duration: float, strength: float) -> void:
-	# Do not overwrite the main 03:17 pressure sting with routine static.
 	if event_mode == 6 and event_remaining > 0.0:
 		return
 	_play_event(5, 0.0, strength, duration)
@@ -190,7 +188,7 @@ func _update_footsteps(delta: float) -> void:
 	step_clock -= delta
 	if step_clock <= 0.0:
 		var running: bool = horizontal_speed > 5.0
-		footstep_strength = 0.55 if running else 0.36
+		footstep_strength = 0.28 if running else 0.18
 		footstep_remaining = 0.10
 		foley_phase = 0.0
 		step_clock = 0.31 if running else 0.48
