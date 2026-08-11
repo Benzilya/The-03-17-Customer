@@ -13,16 +13,16 @@ var ambient_playback: AudioStreamGeneratorPlayback
 var rain_playback: AudioStreamGeneratorPlayback
 var sfx_playback: AudioStreamGeneratorPlayback
 
-var phase := 0.0
-var sample_rate := 22050.0
-var rng := RandomNumberGenerator.new()
-var last_scanned_count := 0
-var last_customer_id := 0
-var anomaly_fired := false
-var sfx_frequency := 0.0
-var sfx_remaining := 0.0
-var sfx_phase := 0.0
-var sfx_volume := 0.0
+var phase: float = 0.0
+var sample_rate: float = 22050.0
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var last_scanned_count: int = 0
+var last_customer_id: int = 0
+var anomaly_fired: bool = false
+var sfx_frequency: float = 0.0
+var sfx_remaining: float = 0.0
+var sfx_phase: float = 0.0
+var sfx_volume: float = 0.0
 
 func _ready() -> void:
 	rng.randomize()
@@ -38,9 +38,9 @@ func _initialize() -> void:
 	sfx_playback = sfx_player.get_stream_playback() as AudioStreamGeneratorPlayback
 
 func _make_generator_player(node_name: String, volume_db: float) -> AudioStreamPlayer:
-	var player := AudioStreamPlayer.new()
+	var player: AudioStreamPlayer = AudioStreamPlayer.new()
 	player.name = node_name
-	var generator := AudioStreamGenerator.new()
+	var generator: AudioStreamGenerator = AudioStreamGenerator.new()
 	generator.mix_rate = sample_rate
 	generator.buffer_length = 0.35
 	player.stream = generator
@@ -60,10 +60,10 @@ func _process(delta: float) -> void:
 func _fill_ambient() -> void:
 	if not ambient_playback:
 		return
-	var frames := ambient_playback.get_frames_available()
-	for _i in range(frames):
+	var frames: int = ambient_playback.get_frames_available()
+	for _i: int in range(frames):
 		# Low electrical/refrigerator hum with a subtle upper harmonic.
-		var hum := sin(phase * TAU * 58.0) * 0.10
+		var hum: float = sin(phase * TAU * 58.0) * 0.10
 		hum += sin(phase * TAU * 116.0) * 0.025
 		hum += sin(phase * TAU * 29.0) * 0.018
 		ambient_playback.push_frame(Vector2(hum, hum))
@@ -74,10 +74,10 @@ func _fill_ambient() -> void:
 func _fill_rain() -> void:
 	if not rain_playback:
 		return
-	var frames := rain_playback.get_frames_available()
-	for _i in range(frames):
+	var frames: int = rain_playback.get_frames_available()
+	for _i: int in range(frames):
 		# Soft filtered-like noise. Kept quiet so it reads as rain outside glass.
-		var noise := rng.randf_range(-0.07, 0.07)
+		var noise: float = rng.randf_range(-0.07, 0.07)
 		if rng.randf() < 0.0025:
 			noise += rng.randf_range(0.05, 0.16)
 		rain_playback.push_frame(Vector2(noise * 0.72, noise))
@@ -85,48 +85,50 @@ func _fill_rain() -> void:
 func _fill_sfx() -> void:
 	if not sfx_playback:
 		return
-	var frames := sfx_playback.get_frames_available()
-	for _i in range(frames):
-		var sample := 0.0
+	var frames: int = sfx_playback.get_frames_available()
+	for _i: int in range(frames):
+		var sample: float = 0.0
 		if sfx_remaining > 0.0:
-			var envelope := clamp(sfx_remaining * 14.0, 0.0, 1.0)
+			var envelope: float = clamp(sfx_remaining * 14.0, 0.0, 1.0)
 			sample = sin(sfx_phase * TAU) * sfx_volume * envelope
 			sfx_phase += sfx_frequency / sample_rate
 			sfx_remaining -= 1.0 / sample_rate
 		sfx_playback.push_frame(Vector2(sample, sample))
 
-func _tone(frequency: float, duration: float, volume := 0.45) -> void:
+func _tone(frequency: float, duration: float, volume: float = 0.45) -> void:
 	sfx_frequency = frequency
 	sfx_remaining = duration
 	sfx_volume = volume
 	sfx_phase = 0.0
 
 func _monitor_game_state(_delta: float) -> void:
-	var scanned = game.get("scanned_count")
-	if typeof(scanned) == TYPE_INT and scanned > last_scanned_count:
-		last_scanned_count = scanned
-		_tone(1320.0, 0.075, 0.38)
-	elif typeof(scanned) == TYPE_INT and scanned < last_scanned_count:
-		last_scanned_count = scanned
+	var scanned_value: Variant = game.get("scanned_count")
+	if typeof(scanned_value) == TYPE_INT:
+		var scanned: int = int(scanned_value)
+		if scanned > last_scanned_count:
+			last_scanned_count = scanned
+			_tone(1320.0, 0.075, 0.38)
+		elif scanned < last_scanned_count:
+			last_scanned_count = scanned
 
-	var customer = game.get("active_customer")
-	if customer and is_instance_valid(customer):
-		var id := customer.get_instance_id()
-		if id != last_customer_id:
-			last_customer_id = id
+	var customer: Node = game.get("active_customer") as Node
+	if customer != null and is_instance_valid(customer):
+		var customer_id: int = int(customer.get_instance_id())
+		if customer_id != last_customer_id:
+			last_customer_id = customer_id
 			# Entrance chime: first note, followed by a small second note.
 			_tone(740.0, 0.16, 0.25)
-			get_tree().create_timer(0.18).timeout.connect(func(): _tone(988.0, 0.20, 0.22))
+			get_tree().create_timer(0.18).timeout.connect(func() -> void: _tone(988.0, 0.20, 0.22))
 	else:
 		last_customer_id = 0
 
-	var minutes = game.get("shift_minutes")
-	if typeof(minutes) in [TYPE_FLOAT, TYPE_INT]:
-		var m := float(minutes)
+	var minutes_value: Variant = game.get("shift_minutes")
+	if typeof(minutes_value) == TYPE_FLOAT or typeof(minutes_value) == TYPE_INT:
+		var minutes: float = float(minutes_value)
 		# Increase the electrical presence as 03:17 approaches.
 		if ambient_player:
-			ambient_player.volume_db = lerp(-22.0, -14.0, clamp((m - 180.0) / 17.0, 0.0, 1.0))
-		if m >= 197.0 and not anomaly_fired:
+			ambient_player.volume_db = lerp(-22.0, -14.0, clamp((minutes - 180.0) / 17.0, 0.0, 1.0))
+		if minutes >= 197.0 and not anomaly_fired:
 			anomaly_fired = true
 			_trigger_0317_audio()
 
