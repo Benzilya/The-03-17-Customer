@@ -20,6 +20,13 @@ const TEXT := {
 		"arrival_0317":"03:17\nThe entrance chime rings.\nNo footsteps follow it.", "objective_check":"OBJECTIVE: Check the customer. Remember the manager's rule.",
 		"unknown_line":"Unknown Customer: \"Long night?\"\n\nA bottle of water rests on the counter.", "night_complete":"NIGHT 1 COMPLETE\nSomething is wrong with Morrow Market.",
 		"decision_prompt":"03:17 CUSTOMER\nThe cameras say nobody is there.", "serve":"SERVE CUSTOMER", "refuse":"REFUSE SERVICE",
+		"controls":"WASD — MOVE   MOUSE — LOOK   E — INTERACT   SHIFT — RUN   CTRL — CROUCH   SPACE — JUMP", "interact":"E — INTERACT",
+		"register_empty":"REGISTER 01\nNo customer is waiting.", "objective_ring":"OBJECTIVE: Ring up %s at REGISTER 01.",
+		"payment_approved":"PAYMENT APPROVED\n%s takes the receipt and leaves.", "scanned":"SCANNED", "waiting":"WAITING", "total":"TOTAL", "scan_next":"SCAN NEXT ITEM", "take_payment":"TAKE PAYMENT",
+		"late_driver":"Late Driver", "late_driver_line":"Coffee. Black. Long road ahead.", "nurse":"Nurse", "nurse_line":"Just water, please. Night shift too?", "unknown_customer":"Unknown Customer",
+		"black_coffee":"Black Coffee", "beef_jerky":"Beef Jerky", "spring_water":"Spring Water",
+		"result_served":"NIGHT 1 RESULT: You served the 03:17 customer.", "result_refused":"NIGHT 1 RESULT: You followed the rule.",
+		"served_message":"BEEP.\n\nThe receipt prints by itself:\nTHANK YOU, ALEX.", "refused_message":"You refuse the sale.\n\nThe customer stares at you for several seconds... then leaves without the bottle.",
 		"credits_body":"THE 03:17 CUSTOMER\n\nCreated by Benzilya\n\nPrototype development\nOpenAI / ChatGPT collaboration\n\nEngine\nGodot 4\n\nAll art and audio used in release builds will be original, licensed, or properly attributed."
 	},
 	"ru": {
@@ -37,6 +44,13 @@ const TEXT := {
 		"arrival_0317":"03:17\nЗвенит дверной колокольчик.\nНо шагов не слышно.", "objective_check":"ЗАДАЧА: Проверь покупателя. Помни правило менеджера.",
 		"unknown_line":"Неизвестный покупатель: «Долгая ночь?»\n\nНа стойке стоит бутылка воды.", "night_complete":"НОЧЬ 1 ЗАВЕРШЕНА\nС Morrow Market что-то не так.",
 		"decision_prompt":"ПОКУПАТЕЛЬ 03:17\nКамеры утверждают, что перед тобой никого нет.", "serve":"ОБСЛУЖИТЬ ПОКУПАТЕЛЯ", "refuse":"ОТКАЗАТЬ В ОБСЛУЖИВАНИИ",
+		"controls":"WASD — ДВИЖЕНИЕ   МЫШЬ — ОБЗОР   E — ВЗАИМОДЕЙСТВИЕ   SHIFT — БЕГ   CTRL — ПРИСЕСТЬ   SPACE — ПРЫЖОК", "interact":"E — ВЗАИМОДЕЙСТВИЕ",
+		"register_empty":"КАССА 01\nПокупателя у кассы нет.", "objective_ring":"ЗАДАЧА: Обслужи %s на КАССЕ 01.",
+		"payment_approved":"ОПЛАТА ПРИНЯТА\n%s забирает чек и уходит.", "scanned":"ОТСКАНИРОВАНО", "waiting":"ОЖИДАЕТ", "total":"ИТОГО", "scan_next":"СКАНИРОВАТЬ ТОВАР", "take_payment":"ПРИНЯТЬ ОПЛАТУ",
+		"late_driver":"Водитель", "late_driver_line":"Кофе. Чёрный. Впереди долгая дорога.", "nurse":"Медсестра", "nurse_line":"Только воду, пожалуйста. Тоже ночная смена?", "unknown_customer":"Неизвестный покупатель",
+		"black_coffee":"Чёрный кофе", "beef_jerky":"Вяленое мясо", "spring_water":"Вода",
+		"result_served":"РЕЗУЛЬТАТ НОЧИ 1: Ты обслужил покупателя 03:17.", "result_refused":"РЕЗУЛЬТАТ НОЧИ 1: Ты последовал правилу.",
+		"served_message":"БИП.\n\nЧек печатается сам:\nСПАСИБО, АЛЕКС.", "refused_message":"Ты отказываешь в продаже.\n\nПокупатель несколько секунд смотрит на тебя... затем уходит, оставив бутылку.",
 		"credits_body":"THE 03:17 CUSTOMER\n\nАвтор: Benzilya\n\nРазработка прототипа\nпри поддержке OpenAI / ChatGPT\n\nДвижок\nGodot 4\n\nВ финальной версии будут использоваться только оригинальные, лицензированные или корректно атрибутированные материалы."
 	}
 }
