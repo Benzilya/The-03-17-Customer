@@ -22,6 +22,12 @@ func _ready() -> void:
 	if config.load("user://settings.cfg")==OK:
 		var sensitivity_percent:=clampf(float(config.get_value("controls","mouse_sensitivity",100.0)),35.0,200.0)
 		mouse_sensitivity=0.0022*(sensitivity_percent/100.0)
+	var parent:=get_parent()
+	if parent!=null and parent.get_node_or_null("AccessibilityRuntime")==null:
+		var runtime:=Node.new()
+		runtime.name="AccessibilityRuntime"
+		runtime.set_script(load("res://scripts/accessibility_runtime.gd"))
+		parent.add_child.call_deferred(runtime)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
