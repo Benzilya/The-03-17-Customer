@@ -16,7 +16,7 @@ func _ready() -> void:
 func _initialize() -> void:
 	game = get_parent()
 	rng.randomize()
-	rain_player = _make_generator_player("Rain", -26.0)
+	rain_player = _make_generator_player("Rain", -31.0)
 	rain_playback = rain_player.get_stream_playback() as AudioStreamGeneratorPlayback
 	set_process(true)
 
