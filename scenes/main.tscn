@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/cctv_render_filter.gd" id="10_cctv_filter"]
 [ext_resource type="Script" path="res://scripts/cctv_ui_polish.gd" id="11_cctv_ui"]
 [ext_resource type="Script" path="res://scripts/m8_audio_quality.gd" id="12_m8_audio"]
+[ext_resource type="Script" path="res://scripts/recorded_sfx_bank.gd" id="13_recorded_sfx"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.38
@@ -41,6 +42,9 @@ script = ExtResource("4_audio")
 
 [node name="M8AudioQuality" type="Node" parent="."]
 script = ExtResource("12_m8_audio")
+
+[node name="RecordedSFXBank" type="Node" parent="."]
+script = ExtResource("13_recorded_sfx")
 
 [node name="CheckoutVisuals" type="Node" parent="."]
 script = ExtResource("5_checkout")
