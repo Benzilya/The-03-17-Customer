@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/night2.gd" id="1_night2"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
 [ext_resource type="Script" path="res://scripts/night2_consequences.gd" id="3_consequences"]
 [ext_resource type="Script" path="res://scripts/night2_world_evidence.gd" id="4_world_evidence"]
+[ext_resource type="Script" path="res://scripts/night2_persistence.gd" id="5_persistence"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.38
@@ -17,6 +18,9 @@ script = ExtResource("3_consequences")
 
 [node name="WorldEvidence" type="Node" parent="."]
 script = ExtResource("4_world_evidence")
+
+[node name="Persistence" type="Node" parent="."]
+script = ExtResource("5_persistence")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 position = Vector3(4.8, 1.0, -1.8)
