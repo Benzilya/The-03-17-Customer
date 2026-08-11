@@ -37,6 +37,8 @@ func _ensure_shared_runtime() -> void:
 		var runtime:=Node.new();runtime.name="AccessibilityRuntime";runtime.set_script(load("res://scripts/accessibility_runtime.gd"));parent.add_child(runtime)
 	if parent.get_node_or_null("PerformanceRuntime")==null:
 		var perf:=Node.new();perf.name="PerformanceRuntime";perf.set_script(load("res://scripts/performance_runtime.gd"));perf.add_to_group("performance_runtime");parent.add_child(perf)
+	if parent.get_node_or_null("ProductionVisualRuntime")==null:
+		var visuals:=Node.new();visuals.name="ProductionVisualRuntime";visuals.set_script(load("res://scripts/production_visual_runtime.gd"));parent.add_child(visuals)
 	if get_tree().get_first_node_in_group("pause_manager")==null:
 		var pause:=Node.new();pause.name="UniversalPause";pause.set_script(load("res://scripts/universal_pause.gd"));parent.add_child(pause)
 
@@ -60,31 +62,20 @@ func _physics_process(delta: float) -> void:
 	if get_tree().paused:return
 	is_crouching = Input.is_physical_key_pressed(KEY_CTRL)
 	_update_crouch(delta)
-
 	if is_on_floor(): coyote_left = coyote_time
 	else: coyote_left = maxf(0.0,coyote_left-delta)
 	jump_buffer_left = maxf(0.0,jump_buffer_left-delta)
-
 	if not is_on_floor(): velocity.y -= gravity * delta
 	else: velocity.y = minf(velocity.y,0.0)
-
 	if jump_buffer_left > 0.0 and coyote_left > 0.0 and not is_crouching:
-		velocity.y = jump_velocity
-		jump_buffer_left = 0.0
-		coyote_left = 0.0
-
+		velocity.y = jump_velocity;jump_buffer_left = 0.0;coyote_left = 0.0
 	var input_vector: Vector2 = Vector2(float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)),float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))).normalized()
 	var direction: Vector3 = (transform.basis * Vector3(input_vector.x, 0.0, input_vector.y)).normalized()
 	var target_speed: float = walk_speed
 	if is_crouching: target_speed = crouch_speed
 	elif Input.is_physical_key_pressed(KEY_SHIFT): target_speed = sprint_speed
-
-	var target_x := direction.x * target_speed
-	var target_z := direction.z * target_speed
-	var rate := acceleration if direction.length_squared() > 0.0 else deceleration
-	velocity.x = move_toward(velocity.x,target_x,rate*delta)
-	velocity.z = move_toward(velocity.z,target_z,rate*delta)
-	move_and_slide()
+	var target_x := direction.x * target_speed;var target_z := direction.z * target_speed;var rate := acceleration if direction.length_squared() > 0.0 else deceleration
+	velocity.x = move_toward(velocity.x,target_x,rate*delta);velocity.z = move_toward(velocity.z,target_z,rate*delta);move_and_slide()
 
 func _update_crouch(delta: float) -> void:
 	var target_height: float = crouching_camera_height if is_crouching else standing_camera_height
@@ -95,12 +86,9 @@ func _update_crouch(delta: float) -> void:
 		capsule.height = move_toward(capsule.height, target_capsule_height, crouch_transition_speed * delta)
 
 func try_interact() -> void:
-	var from: Vector3 = camera.global_position
-	var to: Vector3 = from + (-camera.global_transform.basis.z * interaction_distance)
-	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
-	query.exclude = [self]
+	var from: Vector3 = camera.global_position;var to: Vector3 = from + (-camera.global_transform.basis.z * interaction_distance)
+	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to);query.exclude = [self]
 	var hit: Dictionary = get_world_3d().direct_space_state.intersect_ray(query)
 	if hit.is_empty():return
-	var collider_value: Variant = hit.get("collider")
-	var collider: Object = collider_value as Object
+	var collider_value: Variant = hit.get("collider");var collider: Object = collider_value as Object
 	if collider and collider.has_method("interact"): collider.call("interact", self)
