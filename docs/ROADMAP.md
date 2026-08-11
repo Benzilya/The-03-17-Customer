@@ -2,9 +2,9 @@
 
 This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
 
-## Current overall progress: ~39%
+## Current overall progress: ~40%
 
-The foundation and Night 1 vertical slice exist. The current focus is Godot 4.7.x stabilization, real local playtesting, and locking bilingual EN/RU UI architecture before the larger authored-quality art/audio and Nights 2–6 content passes.
+Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches the 03:17 decision and the SERVE branch completes to the Night 1 result. The project now moves into the visual-quality phase while continuing cleanup of bilingual UI and remaining Night 1 polish.
 
 ## Milestones
 
@@ -13,8 +13,8 @@ The foundation and Night 1 vertical slice exist. The current focus is Godot 4.7.
 - [x] M3 — First-person controller and procedural store blockout (6%)
 - [x] M4 — Night 1 gameplay systems: customers, checkout, CCTV, 03:17 decision (8%)
 - [x] M5 — First atmosphere pass: rain, lighting, audio prototype, cinematic 03:17, physical checkout props (7%)
-- [ ] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — IN PROGRESS
-- [ ] M7 — Visual quality pass: materials, store dressing, authored props, improved customer presentation, post-processing (10%)
+- [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A REACHED
+- [ ] M7 — Visual quality pass: materials, store dressing, authored props, improved customer presentation, post-processing (10%) — IN PROGRESS
 - [ ] M8 — Audio quality pass: authored ambience, scanner/door/footsteps/electrical sounds, mix and spatial audio (6%)
 - [ ] M9 — Night 2 and anomaly verification mechanics (7%)
 - [ ] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%)
@@ -27,20 +27,12 @@ Total planned weight: 100%.
 
 ## Language commitment
 
-The shipping game must support both English and Russian.
-
-- English remains the canonical source text for internal content keys.
-- Russian is a first-class supported language, not a post-release add-on.
-- Main menu language selection is implemented in Settings and persisted in `user://settings.cfg`.
-- A shared localization dictionary now exists in `scripts/localization.gd`.
-- All future story/UI strings should move through localization keys rather than being permanently hard-coded in gameplay scripts.
-- Night 1 gameplay/dialogue localization is the next localization task during M6/M7.
+The shipping game must support both English and Russian. Russian is a first-class supported language, not a post-release add-on. Main menu language selection is implemented in Settings and persisted in `user://settings.cfg`. A shared localization dictionary exists in `scripts/localization.gd`, and Night 1 is progressively moving to localized keys.
 
 ## Playability gates
 
-### Gate A — First playable
-Target: Night 1 can be completed from main menu to result without parser/runtime errors.
-Expected overall project progress at gate: ~40%.
+### Gate A — First playable — REACHED
+Night 1 can reach the 03:17 decision and complete the SERVE outcome in a real Godot 4.7.x run.
 
 ### Gate B — Public-facing vertical slice
 Target: polished Night 1 with improved graphics/audio, bilingual UI/dialogue, and reliable performance.
@@ -56,22 +48,18 @@ Expected overall project progress at gate: 100%.
 
 ## Current priority
 
-1. Fix all Godot 4.7.x parser/runtime issues found in the real local playtest.
-2. Complete Night 1 end-to-end without blockers.
-3. Move Night 1 UI/dialogue to shared EN/RU localization keys.
-4. Lock the visual target and replace the weakest procedural placeholders.
-5. Begin Night 2 only after the core interaction/CCTV/checkout loop is stable.
+1. Improve visual readability and composition based on real gameplay screenshots.
+2. Continue EN/RU cleanup for all remaining Night 1 hard-coded text.
+3. Improve checkout props, customer framing, materials, lighting and store dressing.
+4. Verify the REFUSE branch during ongoing QA.
+5. Move toward Gate B before expanding into Night 2.
 
-## Current M6 changes
+## Current M7 changes
 
-- Audio prototype variables explicitly typed for strict Godot 4.7.x parsing.
-- Player and checkout prototype scripts hardened against Variant type-inference warnings.
-- Pause menu added for faster QA and restarts.
-- Development time-jump helpers added.
-- Checkout customer waiting position corrected: NPCs now remain on the public side of REGISTER 01 rather than entering the cashier/player space.
-- Customer prototype script explicitly typed for Godot 4.7.x strict warning settings.
-- Shared EN/RU localization foundation added.
-- Main menu now includes a persistent English/Russian language selector.
+- Removed oversized world-space checkout item labels that obscured the camera view.
+- Increased customer waiting distance and reduced prototype head/body scale for more natural checkout framing.
+- Localized the 03:17 decision prompt so Russian mode no longer mixes English text in the central choice panel.
+- Real local screenshots are now being used as the visual QA source of truth.
 
 ## Current QA helpers
 
@@ -89,9 +77,4 @@ Graphics are part of the development scope. The target is stylized indie realism
 
 ## Reporting format
 
-Every development report should state:
-- current milestone;
-- estimated overall completion percentage;
-- work completed in the latest pass;
-- known blockers/risks;
-- next milestone and remaining major work.
+Every development report should state current milestone, estimated overall completion percentage, work completed in the latest pass, known blockers/risks, and the next milestone / remaining major work.
