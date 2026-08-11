@@ -1,8 +1,8 @@
 # The 03:17 Customer — Production Roadmap
 
-## Current overall progress: ~68%
+## Current overall progress: ~71%
 
-M1–M8 are implementation-complete. M9 is feature-complete and awaiting final Godot QA. M10 is in active development: Night 3 now consumes Night 2 threat state and includes the first live-CCTV versus archive contradiction mechanic.
+M1–M8 are implementation-complete. M9 is feature-complete and awaiting final Godot QA. M10 is in active development: Night 3 now has two distinct contradiction cases, completion routing, and a Night 4 scene that consumes inherited memory/threat state.
 
 ## Milestones
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
@@ -14,7 +14,7 @@ M1–M8 are implementation-complete. M9 is feature-complete and awaiting final G
 - [x] M7 — Visual quality/readability pass: store dressing, improved customers, bilingual Night 1 UI, manager-note modal, CCTV presentation (10%)
 - [x] M8 — Audio quality pass: ambience, scanner/door/footsteps/electrical sounds, mix structure and 03:17 audio direction (6%) — IMPLEMENTATION COMPLETE / RECORDED-SFX QA PENDING
 - [ ] M9 — Night 2 and anomaly verification mechanics (7%) — FEATURE COMPLETE / GODOT QA PENDING (~95%)
-- [ ] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%) — IN PROGRESS (~35%)
+- [ ] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%) — IN PROGRESS (~55%)
 - [ ] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%)
 - [ ] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%)
 - [ ] M13 — Performance/graphics presets, input polish, bug fixing and balancing (5%)
@@ -29,20 +29,25 @@ Total production milestones: 14 (M1–M14).
 
 ## M10 implemented so far
 - Night 3 reads `threat_level` and `night_3_opening` from Night 2 save data.
-- Lighting/opening tone changes with the player's prior mistakes.
-- Archive warning, delayed camera and threatening register events are scheduled through the shift.
-- First Night 3 customer: Archive Clerk / Архивист.
-- Player must physically approach the security station and compare LIVE CCTV against yesterday's archive.
-- The correct source depends on inherited threat state: low threat favors live feed; high threat can make the archive checksum the only trustworthy record.
-- The choice is written back to `save.json` as `night_3_archive_checked` and `night_3_archive_correct` for later Night 3/4 consequences.
-- Full RU/EN presentation for the archive-comparison UI.
+- First Night 3 case compares LIVE CCTV against archive footage; trusted source changes with inherited threat state.
+- Second Night 3 case deliberately makes both CCTV records agree, forcing the player to use a paper receipt / physical register record as an independent truth source.
+- Night 3 stores both decisions and advances save progression to Night 4 after the second case and late-shift completion point.
+- Night 4 route is derived from Night 3 reliability plus inherited threat: `stable_memory`, `uncertain_memory`, or `contaminated_memory`.
+- Night 4 scene exists and changes opening, one aisle position, atmosphere and early story events based on that route.
+- Main-menu Continue now routes Night 1 → 2 → 3 → 4 from `save.json`.
+- Full RU/EN presentation for current Night 3/4 framework.
+
+## Verification performed this pass
+- Confirmed `scenes/night3.tscn` references the archive controller and first-person player correctly.
+- Reviewed `night3_archive_system.gd` save writes, threat branching and interaction gating; no obvious static blocker found.
+- Identified and fixed a design weakness: archive-versus-live could otherwise become a closed-system guess, so Night 3 now includes an independent physical truth case.
 
 ## Next M10 work
-1. Add a second Night 3 case where both feeds are internally consistent but physical store evidence breaks the tie.
-2. Add Night 3 completion/save routing into Night 4.
-3. Build Night 4 scene and escalation hook.
-4. Add lore fragments that explain why 03:17 appears in altered recordings.
-5. Godot QA for Night 3 interaction/UI and inherited threat states.
+1. Add Night 4's active memory-verification mechanic instead of only timed story events.
+2. Add a Night 4 customer whose identity changes between the player's written note, live view and archive.
+3. Add lore fragment progression explaining why 03:17 appears in recordings before events occur.
+4. Complete Night 4 and save routing toward Night 5.
+5. Godot QA for Nights 2–4 at 1280x720 in RU and EN.
 
 ## Audio note
 Recorded CC0 ordinary SFX are still awaiting physical import; procedural supernatural design remains acceptable for 03:17-only effects.
