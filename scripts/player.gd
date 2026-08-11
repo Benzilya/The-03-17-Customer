@@ -20,11 +20,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			deg_to_rad(80.0)
 		)
 
-	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
-
-	if event.is_action_pressed("interact"):
-		try_interact()
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode == KEY_ESCAPE:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
+		elif event.physical_keycode == KEY_E:
+			try_interact()
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -32,7 +32,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = 0.0
 
-	var input_vector := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var input_vector := Vector2(
+		float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)),
+		float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))
+	).normalized()
 	var direction := (transform.basis * Vector3(input_vector.x, 0.0, input_vector.y)).normalized()
 
 	if direction:
