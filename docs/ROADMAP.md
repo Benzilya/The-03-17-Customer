@@ -2,9 +2,9 @@
 
 This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
 
-## Current overall progress: ~40%
+## Current overall progress: ~44%
 
-Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches the 03:17 decision and the SERVE branch completes to the Night 1 result. The project now moves into the visual-quality phase while continuing cleanup of bilingual UI and remaining Night 1 polish.
+Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches the 03:17 decision and the SERVE branch completes to the Night 1 result. The project is now in the M7 visual-quality phase while continuing bilingual UI cleanup and movement polish.
 
 ## Milestones
 
@@ -57,19 +57,23 @@ Expected overall project progress at gate: 100%.
 ## Current M7 changes
 
 - Removed oversized world-space checkout item labels that obscured the camera view.
-- Increased customer waiting distance and reduced prototype head/body scale for more natural checkout framing.
+- Increased customer waiting distance for more natural checkout framing.
 - Localized the 03:17 decision prompt so Russian mode no longer mixes English text in the central choice panel.
+- Added an M7 visual-quality layer with ceiling grids, fluorescent fixtures, register detailing, window dressing, store clutter and additional scene lighting.
+- Upgraded procedural customer silhouettes with shoulders, chest clothing panel, neck, hair, nose, hands, legs and shoes.
+- Added expanded first-person movement: Space jump, Ctrl crouch with smooth camera/collider transition, and Shift sprint.
 - Real local screenshots are now being used as the visual QA source of truth.
 
-## Current QA helpers
+## Current controls
 
-The Night 1 scene includes development-only time jumps to accelerate local testing:
-
-- `F8` — jump to 02:30
-- `F9` — jump to 03:10
-- `F10` — jump to 03:16
-
-These are temporary QA controls and are intended to be disabled before release packaging.
+- WASD — movement
+- Mouse — look
+- E — interact
+- Space — jump
+- Left/Right Ctrl — crouch
+- Left/Right Shift — sprint
+- Esc — pause
+- F8/F9/F10 — QA time jumps (development only)
 
 ## Art direction commitment
 
