@@ -1,10 +1,8 @@
 # The 03:17 Customer — Production Roadmap
 
-This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
+## Current overall progress: ~50%
 
-## Current overall progress: ~48%
-
-Gate A has been reached in a real Godot 4.7.x local playtest. The project is now in the final portion of M7: visual readability, bilingual Night 1 presentation, character refinement and CCTV treatment.
+Gate A is reached. M7 implementation is complete in-repository and is awaiting one final local Godot 4.7.x visual/runtime QA pass before formal sign-off.
 
 ## Milestones
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
@@ -12,9 +10,9 @@ Gate A has been reached in a real Godot 4.7.x local playtest. The project is now
 - [x] M3 — First-person controller and procedural store blockout (6%)
 - [x] M4 — Night 1 gameplay systems: customers, checkout, CCTV, 03:17 decision (8%)
 - [x] M5 — First atmosphere pass: rain, lighting, audio prototype, cinematic 03:17, physical checkout props (7%)
-- [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A REACHED
-- [ ] M7 — Visual quality pass: materials, store dressing, authored props, improved customer presentation, post-processing (10%) — IN PROGRESS
-- [ ] M8 — Audio quality pass: authored ambience, scanner/door/footsteps/electrical sounds, mix and spatial audio (6%)
+- [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A
+- [x] M7 — Visual quality/readability pass: store dressing, improved customers, bilingual Night 1 UI, manager-note modal, CCTV presentation (10%) — IMPLEMENTATION COMPLETE / QA PENDING
+- [ ] M8 — Audio quality pass: ambience, scanner/door/footsteps/electrical sounds, mix and spatial audio (6%)
 - [ ] M9 — Night 2 and anomaly verification mechanics (7%)
 - [ ] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%)
 - [ ] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%)
@@ -22,53 +20,27 @@ Gate A has been reached in a real Godot 4.7.x local playtest. The project is now
 - [ ] M13 — Performance/graphics presets, input polish, bug fixing and balancing (5%)
 - [ ] M14 — Full-game QA, credits/legal/license audit, export presets and release-candidate packaging (7%)
 
-Total planned weight: 100%.
+## M7 completion summary
+- Night 1 gameplay HUD, checkout, results and CCTV have EN/RU presentation.
+- Manager note now opens in a dedicated centered modal sized for 1280x720 instead of overflowing through the lower HUD.
+- 03:17 decision modal was tightened for 720p readability.
+- Signature bearded regular is selected by a language-independent character style ID.
+- Signature regular received a second procedural art pass: smaller round glasses, cleaner bowler silhouette, compact beard mass and restrained curled moustache/side locks instead of the previous tentacle-like starburst.
+- Customer wait position remains pulled back from the cashier.
+- Scanner brightness and store lighting were reduced from the earlier overexposed QA build.
+- CCTV camera names, states, anomaly messages and navigation are localized.
 
-## Language commitment
-The shipping game supports English and Russian as first-class languages. Main-menu selection persists in `user://settings.cfg`. Night 1 localization now includes the story beats plus customer names/dialogue, checkout terminology, movement/interact HUD, results and transaction messages. Remaining hard-coded CCTV labels are scheduled for the final M7 cleanup.
+## Required M7 sign-off test
+Run Night 1 at 1280x720 in Russian and verify: (1) manager note fits without touching controls/interact HUD, (2) signature regular appears at the first customer event and face remains readable, (3) CCTV buttons/status are Russian, (4) 03:17 SERVE and REFUSE panels fit, (5) debugger shows no parser/runtime blocker. If these pass, M7 is formally signed off and M8 begins.
 
-## Playability gates
-### Gate A — First playable — REACHED
-Night 1 reaches the 03:17 decision and completes the SERVE outcome in a real Godot 4.7.x run.
+## Gates
+- Gate A — first playable: reached.
+- Gate B — polished public-facing Night 1: target ~55–60%, after M8 and final vertical-slice QA.
+- Gate C — content-complete alpha: target ~85%.
+- Gate D — release candidate: 100%.
 
-### Gate B — Public-facing vertical slice
-Target: polished Night 1 with improved graphics/audio, bilingual UI/dialogue, and reliable performance. Expected overall progress: ~55–60%.
-
-### Gate C — Content complete alpha
-Target: Nights 1–6 and all ending routes implemented. Expected overall progress: ~85%.
-
-### Gate D — Release candidate
-Target: optimized, tested, bilingual packaged build with no known blocker bugs. Expected overall progress: 100%.
-
-## Current priority
-1. Wire the expanded EN/RU dictionary through remaining Night 1 HUD/checkout/CCTV code.
-2. Rebuild the signature bearded regular so the approved concept reads naturally rather than as procedural tendrils.
-3. Improve manager-note presentation and prevent 720p text overlap.
-4. Finish CCTV treatment and scene-material/lighting cleanup.
-5. Verify REFUSE branch and then begin M8 audio quality pass.
-
-## Current M7 changes
-- Improved register framing, store dressing, ceiling fixtures, refrigerators, products and clutter.
-- Improved procedural customer silhouettes and increased customer waiting distance.
-- Added Space jump, Ctrl crouch and Shift sprint.
-- Fixed freed-customer runtime reference in the procedural audio monitor.
-- Added the signature hat/glasses/beard regular as an initial prototype; second character-art pass remains required.
-- Reduced scanner glow based on real gameplay screenshots.
-- Expanded EN/RU dictionary to cover movement HUD, interactions, normal customer names/dialogue, products, checkout states/actions, payment messages and both Night 1 outcomes.
-- Real local screenshots remain the visual QA source of truth.
-
-## Current controls
-- WASD — movement
-- Mouse — look
-- E — interact
-- Space — jump
-- Left/Right Ctrl — crouch
-- Left/Right Shift — sprint
-- Esc — pause
-- F8/F9/F10 — QA time jumps (development only)
-
-## Art direction commitment
-Target: stylized indie realism rather than AAA photorealism, with believable materials, strong fluorescent/night lighting, wet exterior surfaces, readable silhouettes, convincing store clutter, CCTV-specific rendering and deliberately uncanny customers. Procedural geometry is a prototyping layer and is progressively replaced/upgraded where most visible.
+## Next milestone: M8
+Build authored-feeling audio layers for rain, refrigerator hum, fluorescent buzz, entrance chime, footsteps, checkout scanner/payment, CCTV interference and the 03:17 event; then mix and spatialize them without masking dialogue/UI cues.
 
 ## Reporting format
-Every development report must state current milestone, estimated overall completion percentage, work completed, known blockers/risks, and next milestone / remaining major work.
+Every development report states current milestone, estimated overall completion, completed work, blockers/risks and next major work.
