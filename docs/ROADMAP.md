@@ -1,8 +1,8 @@
 # The 03:17 Customer — Production Roadmap
 
-## Current overall progress: ~63%
+## Current overall progress: ~64%
 
-M1–M8 are implementation-complete. M9 now has a playable Night 2 loop with source-by-source anomaly verification, in-world evidence stations, visible consequences and persistent carryover into Night 3. Final M9 work is atmosphere polish plus real Godot RU/EN runtime QA.
+M1–M8 are implementation-complete. M9 feature implementation is now at the QA gate: Night 2 has interactive physical evidence, CCTV contradictions, consequence feedback, bilingual decision flow, and persistence into Night 3. Final closure requires a real Godot 4.7.x playthrough in RU/EN.
 
 ## Milestones
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
@@ -13,7 +13,7 @@ M1–M8 are implementation-complete. M9 now has a playable Night 2 loop with sou
 - [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A
 - [x] M7 — Visual quality/readability pass: store dressing, improved customers, bilingual Night 1 UI, manager-note modal, CCTV presentation (10%)
 - [x] M8 — Audio quality pass: ambience, scanner/door/footsteps/electrical sounds, mix structure and 03:17 audio direction (6%) — IMPLEMENTATION COMPLETE / RECORDED-SFX QA PENDING
-- [ ] M9 — Night 2 and anomaly verification mechanics (7%) — IN PROGRESS (~85% of milestone)
+- [ ] M9 — Night 2 and anomaly verification mechanics (7%) — FEATURE COMPLETE / GODOT QA PENDING (~95%)
 - [ ] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%)
 - [ ] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%)
 - [ ] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%)
@@ -22,31 +22,37 @@ M1–M8 are implementation-complete. M9 now has a playable Night 2 loop with sou
 
 Total production milestones: 14 (M1–M14).
 
-## M9 implemented so far
-- Standalone `scenes/night2.tscn` using the first-person controller.
-- Four Night 2 customer cases: two normal and two anomalous.
-- Bilingual anomaly-verification terminal.
-- Evidence must be checked source-by-source before the decision unlocks.
-- In-world evidence layer adds CCTV, register/log and refrigerator/reflection checking points.
-- CCTV contradictions can disagree with the physically visible customer.
-- Serve/refuse scoring with visible correct/error feedback.
-- Wrong calls trigger lighting instability and a cumulative darker store state.
-- Main-menu Continue routes Night 2 progression correctly.
-- Night 2 now persists `night_2_wrong`, `threat_level`, `ignored_anomaly` and a Night 3 opening-state key in `save.json`.
-- Threat carryover states: clean shift, minor breach, active breach and critical breach.
+## M9 feature-complete scope
+- Standalone Night 2 scene using the first-person controller.
+- Four customer cases: two normal and two anomalous.
+- Evidence must be inspected before the serve/refuse decision unlocks.
+- Three physical evidence stations: CCTV, register/log, refrigerator reflection.
+- Dedicated CCTV contradiction presentation for anomalous customers.
+- Correct/wrong decision scoring and visible environmental consequences.
+- Wrong calls cause verification warning, lighting instability and cumulative darkness.
+- Save carryover stores correct/wrong totals, threat level, ignored-anomaly state and a Night 3 opening key.
+- Russian and English strings for the Night 2 gameplay path.
 
-## Remaining M9 work
-1. Night 2 atmosphere/customer-approach polish.
-2. Verify physical evidence interaction distance/readability in real Godot play.
-3. Verify save merge after Night 2 and Continue routing.
-4. Full 1280x720 runtime QA in Russian and English; fix parser/runtime/UI blockers.
+## M9 QA checklist
+1. Start Night 2 from Continue after a completed Night 1 save.
+2. Walk to all three evidence stations and verify E interaction range/readability.
+3. Confirm decision remains locked until three evidence checks are registered.
+4. Test one normal customer: CCTV reports count 1 / subject detected.
+5. Test one anomaly: CCTV reports count 0 / subject not detected while the customer is visibly present in-world.
+6. Make one wrong decision and verify warning + lighting consequence.
+7. Complete all four cases and verify `save.json` advances to night 3 with `night_2_wrong`, `threat_level`, `ignored_anomaly`, and `night_3_opening`.
+8. Repeat UI/readability check at 1280x720 in Russian and English.
+9. Confirm Godot debugger has no parser/runtime blocker.
 
 ## Audio note
 The project is prepared to use recorded CC0 files from `assets/audio/cc0/`; synthetic ordinary SFX remain temporary fallback until selected binaries are physically imported. Supernatural 03:17 design can remain procedural where intentional.
 
+## Next milestone: M10
+Nights 3–4 will consume Night 2 threat state, introduce evidence/lore progression and make CCTV contradictions less explicit and more dangerous to interpret.
+
 ## Gates
 - Gate A — first playable: reached.
-- Gate B — polished public-facing Night 1: target ~56–60%, after final recorded-audio QA.
+- Gate B — polished public-facing Night 1: target ~56–60%, pending final recorded-audio QA.
 - Gate C — content-complete alpha: target ~85%.
 - Gate D — release candidate: 100%.
 
