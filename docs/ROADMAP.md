@@ -1,66 +1,69 @@
 # The 03:17 Customer — Production Roadmap
 
 ## Current progress
-- Functional/system progress: ~95%
-- Visual production progress: ~48%
+- Repository / virtual implementation progress: 100%
+- Functional/system implementation: 100% planned scope present
+- Visual production progress relative to intended public target: ~48%
+- Runtime QA / release validation: NOT COMPLETE
 
-M1–M13 are feature-implemented. M14 is now split into a dense graphics production pass followed by full-game runtime QA, audio/license completion, export and release-candidate stabilization. The visual percentage is tracked separately because the gameplay systems are much further along than the final art quality.
+M1–M14 now have their planned repository-side implementation and release structure in place. This does **not** mean the game is a verified release candidate: final art assets, recorded-audio import, actual Godot 4.7.x playthroughs, exported-build testing and release-blocker fixes still require runtime/human validation.
 
 ## Milestones
-- [x] M1 — Concept, story hook, GDD, repository foundation (8%)
-- [x] M2 — Main menu, settings, save bootstrap (6%)
-- [x] M3 — First-person controller and procedural store blockout (6%)
-- [x] M4 — Night 1 gameplay systems: customers, checkout, CCTV, 03:17 decision (8%)
-- [x] M5 — First atmosphere pass: rain, lighting, audio prototype, cinematic 03:17, physical checkout props (7%)
-- [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A
-- [x] M7 — Visual quality/readability pass (10%)
-- [x] M8 — Audio quality implementation pass (6%) — RECORDED-SFX QA DEBT
-- [x] M9 — Night 2 and anomaly verification mechanics (7%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [x] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [x] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [x] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [x] M13 — Performance/graphics presets, input polish, bug fixing and balancing (5%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [ ] M14 — GRAPHICS PRODUCTION + full QA + release candidate (7%) — ACTIVE
+- [x] M1 — Concept, story hook, GDD, repository foundation
+- [x] M2 — Main menu, settings, save bootstrap
+- [x] M3 — First-person controller and procedural store blockout
+- [x] M4 — Night 1 gameplay systems
+- [x] M5 — First atmosphere pass
+- [x] M6 — Godot runtime stabilization / Gate A
+- [x] M7 — Visual quality/readability pass
+- [x] M8 — Audio quality implementation pass — recorded-SFX runtime debt remains
+- [x] M9 — Night 2 and anomaly verification — runtime QA debt remains
+- [x] M10 — Nights 3–4 and advanced evidence — runtime QA debt remains
+- [x] M11 — Nights 5–6 and four endings — runtime QA debt remains
+- [x] M12 — Save/settings/accessibility/RU-EN systems — runtime QA debt remains
+- [x] M13 — Performance presets/input polish/balance implementation — runtime QA debt remains
+- [x] M14 — Repository-side graphics/release structure/RC preparation — RUNTIME + FINAL ART/AUDIO VALIDATION REMAINS
 
-Total production milestones: 14 (M1–M14).
+Total planned milestones: 14 (M1–M14).
 
-## M14 graphics production — Pass 1 complete
-- Shared production visual runtime injected into Nights 1–6.
-- Store floor receives commercial tile/grout and wear language instead of a single uninterrupted plane.
-- Added baseboards, utility/electrical details, conduit, fire equipment, signage and scale cues.
-- Added authored-looking ceiling fixture language and intentionally dead fixtures for less procedural repetition.
-- Register cluster receives monitor/bezel, receipt printer/slot, paper, trim and counter fabrication details.
-- Added shipping cartons, tape, mop/bucket, extinguisher and back-room clutter.
-- Employee rest room receives headboard, bedding detail, bedside table, mug and notice board.
-- Lighting gains cool register/fridge/entrance pools and a contrasting warm rest-room pool.
-- Customer V2 implemented: revised head proportions, jaw/chin, cheeks, ears, better eyes, brows, nose, hair masses, layered clothing and improved limbs.
-- Signature beard customer rebuilt around the approved silhouette with round glasses, hat, dense beard and multiple curled locks.
-- Anomaly/CCTV visibility layer behavior preserved.
+## M14 repository-side completion
+- Shared production visual runtime used by Nights 1–6.
+- Customer V2 procedural character pass and signature-beard visitor upgrade.
+- Store/environment production-art pass 1.
+- Low/Balanced/High graphics presets and 60 FPS target structure.
+- Windows Desktop export preset at `export_presets.cfg`.
+- Third-party/license manifest at `docs/THIRD_PARTY_LICENSES.md`.
+- Release-candidate/runtime checklist at `docs/M14_RC.md`.
+- Save recovery, bed transitions, all four endings, RU/EN and accessibility already integrated from earlier milestones.
 
-Detailed art-pass notes: `docs/M14_GRAPHICS_PASS.md`.
+## Remaining work before a true Gate D release candidate
+These are validation/art-production tasks rather than missing roadmap systems:
+1. Run complete Nights 1–6 progression in Godot 4.7.x and fix every parser/runtime blocker.
+2. Capture actual runtime screenshots and tune lighting/material overlap from real output.
+3. Replace remaining primitive-looking character/environment elements with final authored meshes/textures where needed.
+4. Import only verified/licensed recorded ordinary SFX and complete listening/mix QA.
+5. Verify bed/evidence interaction ranges, late-game choices, save recovery and all endings.
+6. Test RU/EN and accessibility at 1280×720.
+7. Profile Low/Balanced/High presets on target Windows hardware.
+8. Export Windows Desktop build and smoke-test the exported EXE.
+9. Measure the actual release-folder size and update the size budget.
 
-## M14 graphics next
-1. Runtime screenshot QA and eliminate z-fighting/geometry overlap with Night 1 legacy M7 layers.
-2. Add distinct clothing/silhouette variants per recurring visitor instead of primarily recoloring one body.
-3. Improve glass, wet surfaces, reflections and CCTV image treatment.
-4. Increase prop fidelity at the register and rest room where the player stands closest.
-5. Add authored external textures/models where licensing and import path are available.
-6. Capture before/after screenshots at 1280×720 and tune lighting from real Godot output.
+## Size budget
+GitHub repository size is not the same as game installation size.
 
-## M14 release work after graphics
-1. Run complete Nights 1–6 progression in Godot 4.7.x.
-2. Regression-test RU/EN, accessibility, save recovery, bed transitions and all endings.
-3. Profile Low/Balanced/High presets and fix runtime blockers.
-4. Physically import/finalize recorded CC0 ordinary SFX and complete license manifest.
-5. Audit credits, licenses and third-party asset provenance.
-6. Create/verify Windows export preset and release folder structure.
-7. Fix release-blocking bugs and produce release-candidate checklist/package.
+Planning envelope:
+- Current source repository: measured from GitHub metadata.
+- Current procedural prototype Windows export: estimated ~80–150 MB.
+- Intended production Windows release with compressed character/environment art + recorded audio: estimated ~250–600 MB.
+- Soft upper budget for first release: <750 MB unless visual/audio quality clearly justifies more.
+
+Final numbers must be measured from an actual exported release folder; estimates are not measurements.
 
 ## Gates
 - Gate A — first playable: reached.
-- Gate B — polished public-facing Night 1: implementation reached; final visual/audio/runtime verification pending.
-- Gate C — content-complete alpha: reached by feature scope.
-- Gate D — release candidate: M14 target.
+- Gate B — public-facing Night 1 implementation: reached; final visual/audio validation remains.
+- Gate C — content-complete alpha scope: reached.
+- Gate D — true release candidate: blocked on runtime QA, final art/audio validation and exported-build smoke test.
 
 ## Reporting format
-Every development report states: milestone, functional progress, visual progress, completed work, current repository/game size, blockers/risks and next major work.
+Every development report states: virtual/functional progress, visual progress, runtime-validation status, current repository/game size, completed work, blockers and next concrete work.
