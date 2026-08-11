@@ -10,7 +10,7 @@ Early playable vertical slice / pre-production.
 
 ## Engine
 
-Godot 4.x
+Godot 4.x. Current QA work is being hardened against Godot 4.7.x strict GDScript typing.
 
 ## Current prototype
 
@@ -22,6 +22,7 @@ The repository currently contains:
 - a walkable convenience-store interior with shelves, products, refrigerators, checkout hardware, fluorescent lighting, and a dark exterior lot
 - first-person mouse look and WASD movement
 - raycast interaction on `E`
+- an in-game pause screen on `Esc` with resume, restart Night 1, return to main menu, and quit actions
 - an interactable manager note
 - a playable checkout loop: open REGISTER 01, scan each item, see a running total, and take payment
 - physical checkout-item representations that move through the scanner as items are processed
@@ -53,7 +54,7 @@ The current Night 1 clock is intentionally accelerated for development so the co
 
 The game starts at `scenes/main_menu.tscn`. Select **NEW SHIFT** to create the initial save and enter Night 1. **CONTINUE** is disabled until a save exists.
 
-Gameplay controls: **WASD** move, **Mouse** look, **E** interact, **Esc** release/capture mouse.
+Gameplay controls: **WASD** move, **Mouse** look, **E** interact, **Esc** pause/resume.
 
 ## Night 1 test flow
 
@@ -61,12 +62,12 @@ Read the note by the register. When an ordinary customer reaches the counter, in
 
 ## Architecture note
 
-`scripts/main.gd` owns gameplay and Night 1 progression. `scripts/visual_pass.gd` owns the environment presentation layer. `scripts/audio_atmosphere.gd` owns the current procedural sound bed and event cues. `scripts/checkout_visuals.gd` mirrors the register flow with physical item props. `scripts/cinematic_0317.gd` owns the dedicated 03:17 framing/impact sequence. Keeping these layers separate should make later art, sound, and pacing upgrades safer.
+`scripts/main.gd` owns gameplay and Night 1 progression. `scripts/visual_pass.gd` owns the environment presentation layer. `scripts/audio_atmosphere.gd` owns the current procedural sound bed and event cues. `scripts/checkout_visuals.gd` mirrors the register flow with physical item props. `scripts/cinematic_0317.gd` owns the dedicated 03:17 framing/impact sequence. `scripts/pause_menu.gd` owns the gameplay pause flow. Keeping these layers separate should make later art, sound, pacing, and QA upgrades safer.
 
 ## Core idea
 
 Work the register, restock shelves, watch the CCTV system, and decide who is safe to serve. At exactly 03:17, the store stops behaving like a normal place.
 
-The next development milestone is runtime QA in Godot plus the second environment/interaction pass: authentic audio files, better customer animation, more detailed counter interactions, and bug-fixing based on the first real local playtest.
+The next development milestone is runtime QA in Godot 4.7.x plus the second environment/interaction pass: authentic audio files, better customer animation, more detailed counter interactions, and bug-fixing based on real local playtests.
 
 See `docs/GDD.md` for the current game design.
