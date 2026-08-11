@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/night4.gd" id="1_night4"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
+[ext_resource type="Script" path="res://scripts/night4_memory_system.gd" id="3_memory"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.38
@@ -9,6 +10,9 @@ height = 1.8
 
 [node name="Night4" type="Node3D"]
 script = ExtResource("1_night4")
+
+[node name="MemorySystem" type="Node" parent="."]
+script = ExtResource("3_memory")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 position = Vector3(4.8, 1.0, -1.8)
