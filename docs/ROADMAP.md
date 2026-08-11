@@ -1,8 +1,8 @@
 # The 03:17 Customer — Production Roadmap
 
-## Current overall progress: ~61%
+## Current overall progress: ~63%
 
-M1–M8 are implementation-complete. M9 now has Night 2, interactive evidence checks, serve/refuse scoring, and visible environmental consequences for wrong decisions. M8 still needs final recorded-SFX replacement/listening QA, but it no longer blocks content development.
+M1–M8 are implementation-complete. M9 now has a playable Night 2 loop with source-by-source anomaly verification, in-world evidence stations, visible consequences and persistent carryover into Night 3. Final M9 work is atmosphere polish plus real Godot RU/EN runtime QA.
 
 ## Milestones
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
@@ -13,7 +13,7 @@ M1–M8 are implementation-complete. M9 now has Night 2, interactive evidence ch
 - [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A
 - [x] M7 — Visual quality/readability pass: store dressing, improved customers, bilingual Night 1 UI, manager-note modal, CCTV presentation (10%)
 - [x] M8 — Audio quality pass: ambience, scanner/door/footsteps/electrical sounds, mix structure and 03:17 audio direction (6%) — IMPLEMENTATION COMPLETE / RECORDED-SFX QA PENDING
-- [ ] M9 — Night 2 and anomaly verification mechanics (7%) — IN PROGRESS (~65% of milestone)
+- [ ] M9 — Night 2 and anomaly verification mechanics (7%) — IN PROGRESS (~85% of milestone)
 - [ ] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%)
 - [ ] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%)
 - [ ] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%)
@@ -26,21 +26,23 @@ Total production milestones: 14 (M1–M14).
 - Standalone `scenes/night2.tscn` using the first-person controller.
 - Four Night 2 customer cases: two normal and two anomalous.
 - Bilingual anomaly-verification terminal.
-- Evidence is now inspected source-by-source; decision is locked until all three sources are checked.
-- Serve/refuse scoring and Night 3 progression save.
-- Main-menu Continue routes saved Night 2 progression correctly.
-- Wrong decisions now cause a visible verification warning, lighting flicker and a cumulative darker store state.
-- Correct decisions receive a short green verification confirmation without horror escalation.
+- Evidence must be checked source-by-source before the decision unlocks.
+- In-world evidence layer adds CCTV, register/log and refrigerator/reflection checking points.
+- CCTV contradictions can disagree with the physically visible customer.
+- Serve/refuse scoring with visible correct/error feedback.
+- Wrong calls trigger lighting instability and a cumulative darker store state.
+- Main-menu Continue routes Night 2 progression correctly.
+- Night 2 now persists `night_2_wrong`, `threat_level`, `ignored_anomaly` and a Night 3 opening-state key in `save.json`.
+- Threat carryover states: clean shift, minor breach, active breach and critical breach.
 
 ## Remaining M9 work
-1. Move at least one evidence source from terminal-only presentation into a physical in-world interaction.
-2. Add a dedicated CCTV contradiction view for Night 2 rather than text only.
-3. Carry wrong-decision count into Night 3 save data and future consequences.
-4. Add Night 2 customer-approach/atmosphere polish.
-5. Godot runtime QA at 1280x720 in RU and EN.
+1. Night 2 atmosphere/customer-approach polish.
+2. Verify physical evidence interaction distance/readability in real Godot play.
+3. Verify save merge after Night 2 and Continue routing.
+4. Full 1280x720 runtime QA in Russian and English; fix parser/runtime/UI blockers.
 
 ## Audio note
-The project is prepared to use recorded CC0 files from `assets/audio/cc0/`; synthetic ordinary SFX remain temporary fallback until the selected binaries are physically imported. Supernatural 03:17 design can remain procedural where intentional.
+The project is prepared to use recorded CC0 files from `assets/audio/cc0/`; synthetic ordinary SFX remain temporary fallback until selected binaries are physically imported. Supernatural 03:17 design can remain procedural where intentional.
 
 ## Gates
 - Gate A — first playable: reached.
