@@ -2,9 +2,9 @@
 
 This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
 
-## Current overall progress: ~44%
+## Current overall progress: ~47%
 
-Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches the 03:17 decision and the SERVE branch completes to the Night 1 result. The project is now in the M7 visual-quality phase while continuing bilingual UI cleanup and movement polish.
+Gate A has been reached in a real Godot 4.7.x local playtest: Night 1 reaches the 03:17 decision and the SERVE branch completes to the Night 1 result. The project is now well into the M7 visual-quality phase while continuing bilingual UI cleanup and Night 1 presentation polish.
 
 ## Milestones
 
@@ -48,11 +48,11 @@ Expected overall project progress at gate: 100%.
 
 ## Current priority
 
-1. Improve visual readability and composition based on real gameplay screenshots.
-2. Continue EN/RU cleanup for all remaining Night 1 hard-coded text.
-3. Improve checkout props, customer framing, materials, lighting and store dressing.
-4. Verify the REFUSE branch during ongoing QA.
-5. Move toward Gate B before expanding into Night 2.
+1. Finish M7 visual pass with improved materials, refrigerators, shelf dressing, CCTV treatment and customer presentation.
+2. Continue EN/RU cleanup for remaining Night 1 hard-coded HUD and transaction strings.
+3. Verify the REFUSE branch during ongoing QA.
+4. Begin M8 audio quality pass after visual readability is stable.
+5. Reach Gate B before expanding into Night 2.
 
 ## Current M7 changes
 
@@ -62,7 +62,12 @@ Expected overall project progress at gate: 100%.
 - Added an M7 visual-quality layer with ceiling grids, fluorescent fixtures, register detailing, window dressing, store clutter and additional scene lighting.
 - Upgraded procedural customer silhouettes with shoulders, chest clothing panel, neck, hair, nose, hands, legs and shoes.
 - Added expanded first-person movement: Space jump, Ctrl crouch with smooth camera/collider transition, and Shift sprint.
-- Real local screenshots are now being used as the visual QA source of truth.
+- Fixed the Godot 4.7.x freed-customer reference in the procedural audio monitor.
+- Added a signature Night 1 regular inspired by the approved concept: brown bowler hat, round dark glasses and a highly distinctive curled moustache/beard silhouette.
+- Expanded the refrigerator wall with glass doors, internal shelves, product rows, labels and cold lighting.
+- Added denser shelf products, price tags, a wet-floor sign, cleaning bucket and additional store clutter.
+- Reduced scanner glow intensity so the checkout surface no longer dominates the frame.
+- Real local screenshots are being used as the visual QA source of truth.
 
 ## Current controls
 
@@ -81,4 +86,9 @@ Graphics are part of the development scope. The target is stylized indie realism
 
 ## Reporting format
 
-Every development report should state current milestone, estimated overall completion percentage, work completed in the latest pass, known blockers/risks, and the next milestone / remaining major work.
+Every development report must state:
+- current milestone;
+- estimated overall completion percentage;
+- work completed in the latest pass;
+- known blockers/risks;
+- next milestone and remaining major work.
