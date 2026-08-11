@@ -3,6 +3,7 @@ extends Control
 const GAME_SCENE := "res://scenes/main.tscn"
 const NIGHT2_SCENE := "res://scenes/night2.tscn"
 const NIGHT3_SCENE := "res://scenes/night3.tscn"
+const NIGHT4_SCENE := "res://scenes/night4.tscn"
 const LOCALIZATION := preload("res://scripts/localization.gd")
 
 var timestamp_label: Label
@@ -102,7 +103,9 @@ func start_new_game() -> void:
 
 func continue_game() -> void:
 	var night: int = _read_progress_night()
-	if night >= 3:
+	if night >= 4:
+		get_tree().change_scene_to_file(NIGHT4_SCENE)
+	elif night == 3:
 		get_tree().change_scene_to_file(NIGHT3_SCENE)
 	elif night == 2:
 		get_tree().change_scene_to_file(NIGHT2_SCENE)
