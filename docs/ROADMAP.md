@@ -1,8 +1,10 @@
 # The 03:17 Customer — Production Roadmap
 
-## Current overall progress: ~95%
+## Current progress
+- Functional/system progress: ~95%
+- Visual production progress: ~48%
 
-M1–M13 are now feature-implemented. M14 is the final milestone: full-game runtime QA, legal/license audit, export presets, release packaging and release-candidate stabilization. Runtime QA debt from M8–M13 is intentionally consolidated into M14.
+M1–M13 are feature-implemented. M14 is now split into a dense graphics production pass followed by full-game runtime QA, audio/license completion, export and release-candidate stabilization. The visual percentage is tracked separately because the gameplay systems are much further along than the final art quality.
 
 ## Milestones
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
@@ -18,46 +20,47 @@ M1–M13 are now feature-implemented. M14 is the final milestone: full-game runt
 - [x] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%) — FEATURE COMPLETE / RUNTIME QA DEBT
 - [x] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%) — FEATURE COMPLETE / RUNTIME QA DEBT
 - [x] M13 — Performance/graphics presets, input polish, bug fixing and balancing (5%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [ ] M14 — Full-game QA, credits/legal/license audit, export presets and release-candidate packaging (7%)
+- [ ] M14 — GRAPHICS PRODUCTION + full QA + release candidate (7%) — ACTIVE
 
 Total production milestones: 14 (M1–M14).
 
-## M13 closed scope
-- Added a shared performance runtime automatically used by all Night scenes.
-- Added persistent Low / Balanced / High graphics presets for the Godot Compatibility renderer.
-- Low uses 75% 3D scale with MSAA disabled; Balanced uses 90% scale with 2x MSAA; High uses native scale with 4x MSAA.
-- Current target is capped at 60 FPS for stable timing and compatibility-focused profiling.
-- Night 1 pause menu now exposes graphics quality controls.
-- Nights 2–6 receive a universal pause menu with the same quality controls.
-- Restart Current Night reloads the actual current scene across the campaign.
-- Player horizontal motion now accelerates/decelerates smoothly instead of snapping instantly to full speed.
-- Jump is edge-triggered and no longer repeats automatically just because Space remains held after landing.
-- Added coyote time and jump buffering for more forgiving first-person platform movement.
-- Existing sprint/crouch/jump controls and persistent mouse sensitivity remain intact.
-- M13 QA/balance specification is documented in `docs/M13_QA.md`.
+## M14 graphics production — Pass 1 complete
+- Shared production visual runtime injected into Nights 1–6.
+- Store floor receives commercial tile/grout and wear language instead of a single uninterrupted plane.
+- Added baseboards, utility/electrical details, conduit, fire equipment, signage and scale cues.
+- Added authored-looking ceiling fixture language and intentionally dead fixtures for less procedural repetition.
+- Register cluster receives monitor/bezel, receipt printer/slot, paper, trim and counter fabrication details.
+- Added shipping cartons, tape, mop/bucket, extinguisher and back-room clutter.
+- Employee rest room receives headboard, bedding detail, bedside table, mug and notice board.
+- Lighting gains cool register/fridge/entrance pools and a contrasting warm rest-room pool.
+- Customer V2 implemented: revised head proportions, jaw/chin, cheeks, ears, better eyes, brows, nose, hair masses, layered clothing and improved limbs.
+- Signature beard customer rebuilt around the approved silhouette with round glasses, hat, dense beard and multiple curled locks.
+- Anomaly/CCTV visibility layer behavior preserved.
 
-## M14 final milestone
+Detailed art-pass notes: `docs/M14_GRAPHICS_PASS.md`.
+
+## M14 graphics next
+1. Runtime screenshot QA and eliminate z-fighting/geometry overlap with Night 1 legacy M7 layers.
+2. Add distinct clothing/silhouette variants per recurring visitor instead of primarily recoloring one body.
+3. Improve glass, wet surfaces, reflections and CCTV image treatment.
+4. Increase prop fidelity at the register and rest room where the player stands closest.
+5. Add authored external textures/models where licensing and import path are available.
+6. Capture before/after screenshots at 1280×720 and tune lighting from real Godot output.
+
+## M14 release work after graphics
 1. Run complete Nights 1–6 progression in Godot 4.7.x.
 2. Regression-test RU/EN, accessibility, save recovery, bed transitions and all endings.
-3. Profile Low/Balanced/High presets and fix performance/runtime blockers.
+3. Profile Low/Balanced/High presets and fix runtime blockers.
 4. Physically import/finalize recorded CC0 ordinary SFX and complete license manifest.
 5. Audit credits, licenses and third-party asset provenance.
 6. Create/verify Windows export preset and release folder structure.
 7. Fix release-blocking bugs and produce release-candidate checklist/package.
 
-## Outstanding QA debt consolidated into M14
-- Full Nights 2–6 runtime verification.
-- Rest-room geometry and bed transition verification.
-- M12 save/accessibility regression checks.
-- M13 movement/pause/graphics runtime checks.
-- Real recorded-SFX import and final mix listening pass.
-- All four endings and ending-history persistence.
-
 ## Gates
 - Gate A — first playable: reached.
-- Gate B — polished public-facing Night 1: implementation reached; final audio/runtime verification pending.
+- Gate B — polished public-facing Night 1: implementation reached; final visual/audio/runtime verification pending.
 - Gate C — content-complete alpha: reached by feature scope.
 - Gate D — release candidate: M14 target.
 
 ## Reporting format
-Every development report states: milestone, overall progress, milestone progress, completed work, current repository/game size, blockers/risks and next major work.
+Every development report states: milestone, functional progress, visual progress, completed work, current repository/game size, blockers/risks and next major work.
