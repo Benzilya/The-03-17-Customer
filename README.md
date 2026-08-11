@@ -16,6 +16,9 @@ Godot 4.x
 
 The repository currently contains:
 
+- a full main menu presented as a CCTV security feed
+- `NEW SHIFT`, save-aware `CONTINUE`, `SETTINGS`, `CREDITS`, and `QUIT`
+- saved master-volume and fullscreen settings
 - a walkable convenience-store blockout
 - first-person mouse look and WASD movement
 - raycast interaction on `E`
@@ -31,9 +34,11 @@ The prototype deliberately uses generated geometry and materials so it can run b
 1. Install Godot 4.x.
 2. Clone or download this repository.
 3. Import `project.godot` in the Godot Project Manager.
-4. Run the project with **F6/F5**.
+4. Run the project with **F5**.
 
-Controls: **WASD** move, **Mouse** look, **E** interact, **Esc** release/capture mouse.
+The game now starts at `scenes/main_menu.tscn`. Select **NEW SHIFT** to create the initial save and enter the store. **CONTINUE** is disabled until a save exists.
+
+Gameplay controls: **WASD** move, **Mouse** look, **E** interact, **Esc** release/capture mouse.
 
 ## Core idea
 
