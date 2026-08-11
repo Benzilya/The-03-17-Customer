@@ -2,6 +2,7 @@ extends Control
 
 const GAME_SCENE := "res://scenes/main.tscn"
 const NIGHT2_SCENE := "res://scenes/night2.tscn"
+const NIGHT3_SCENE := "res://scenes/night3.tscn"
 const LOCALIZATION := preload("res://scripts/localization.gd")
 
 var timestamp_label: Label
@@ -95,14 +96,15 @@ func build_credits_panel() -> void:
 
 func start_new_game() -> void:
 	var save := ConfigFile.new(); save.set_value("progress", "night", 1); save.set_value("progress", "started", true); save.save("user://save.cfg")
-	# A new shift always starts Night 1 and clears JSON progression from earlier runs.
 	if FileAccess.file_exists("user://save.json"):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://save.json"))
 	get_tree().change_scene_to_file(GAME_SCENE)
 
 func continue_game() -> void:
 	var night: int = _read_progress_night()
-	if night >= 2:
+	if night >= 3:
+		get_tree().change_scene_to_file(NIGHT3_SCENE)
+	elif night == 2:
 		get_tree().change_scene_to_file(NIGHT2_SCENE)
 	else:
 		get_tree().change_scene_to_file(GAME_SCENE)
