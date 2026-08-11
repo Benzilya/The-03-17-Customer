@@ -16,6 +16,8 @@ func setup(customer_name: String, is_anomalous: bool, body_color: Color) -> void
 	anomalous = is_anomalous
 	color = body_color
 	_build_body()
+	if display_name == "Late Driver" and not anomalous:
+		_build_signature_customer()
 
 func _material(c: Color, roughness: float = 0.78, metallic: float = 0.0) -> StandardMaterial3D:
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
@@ -31,7 +33,6 @@ func _build_body() -> void:
 	var skin: StandardMaterial3D = _material(skin_color, 0.88)
 	var shoe_mat: StandardMaterial3D = _material(Color(0.035, 0.038, 0.04), 0.72, 0.08)
 
-	# Torso with separate shoulder/chest masses reads less like a single capsule.
 	var torso: MeshInstance3D = MeshInstance3D.new()
 	var torso_mesh: CapsuleMesh = CapsuleMesh.new()
 	torso_mesh.radius = 0.32
@@ -49,7 +50,6 @@ func _build_body() -> void:
 	shoulders.position = Vector3(0.0, 1.45, 0.0)
 	add_child(shoulders)
 
-	# Jacket / shirt panel gives the front a readable clothing layer.
 	var chest: MeshInstance3D = MeshInstance3D.new()
 	var chest_mesh: BoxMesh = BoxMesh.new()
 	chest_mesh.size = Vector3(0.50, 0.55, 0.06)
@@ -58,7 +58,6 @@ func _build_body() -> void:
 	chest.position = Vector3(0.0, 1.22, -0.285)
 	add_child(chest)
 
-	# Neck.
 	var neck: MeshInstance3D = MeshInstance3D.new()
 	var neck_mesh: CylinderMesh = CylinderMesh.new()
 	neck_mesh.top_radius = 0.09
@@ -80,7 +79,6 @@ func _build_body() -> void:
 		head.scale = Vector3(0.94, 1.10, 0.90)
 	add_child(head)
 
-	# Hair cap: subtle on normal customers, unnaturally flat/dark on anomaly.
 	var hair: MeshInstance3D = MeshInstance3D.new()
 	var hair_mesh: SphereMesh = SphereMesh.new()
 	hair_mesh.radius = 0.238
@@ -117,7 +115,6 @@ func _build_body() -> void:
 	mouth.position = Vector3(0.0, 1.72, -0.237)
 	add_child(mouth)
 
-	# Arms, hands, legs and shoes create a more human full-body silhouette.
 	for side_value: float in [-1.0, 1.0]:
 		var arm: MeshInstance3D = MeshInstance3D.new()
 		var arm_mesh: CapsuleMesh = CapsuleMesh.new()
@@ -162,6 +159,127 @@ func _build_body() -> void:
 		halo.light_energy = 0.075
 		halo.omni_range = 1.25
 		add_child(halo)
+
+func _build_signature_customer() -> void:
+	# A memorable regular inspired by the approved concept: brown bowler hat,
+	# round dark glasses and an exaggerated curled moustache/beard silhouette.
+	# Geometry is intentionally stylized and original rather than a literal copy.
+	var brown: StandardMaterial3D = _material(Color(0.19, 0.095, 0.045), 0.82)
+	var hat_band: StandardMaterial3D = _material(Color(0.11, 0.045, 0.025), 0.72)
+	var beard_mat: StandardMaterial3D = _material(Color(0.43, 0.27, 0.12), 0.96)
+	var beard_light: StandardMaterial3D = _material(Color(0.62, 0.43, 0.22), 0.97)
+	var lens: StandardMaterial3D = _material(Color(0.018, 0.012, 0.010), 0.16, 0.18)
+	var metal: StandardMaterial3D = _material(Color(0.54, 0.43, 0.28), 0.30, 0.62)
+
+	var coat: MeshInstance3D = MeshInstance3D.new()
+	var coat_mesh: BoxMesh = BoxMesh.new()
+	coat_mesh.size = Vector3(0.66, 0.68, 0.10)
+	coat_mesh.material = brown
+	coat.mesh = coat_mesh
+	coat.position = Vector3(0.0, 1.19, -0.31)
+	add_child(coat)
+
+	var brim: MeshInstance3D = MeshInstance3D.new()
+	var brim_mesh: CylinderMesh = CylinderMesh.new()
+	brim_mesh.top_radius = 0.33
+	brim_mesh.bottom_radius = 0.33
+	brim_mesh.height = 0.055
+	brim_mesh.material = brown
+	brim.mesh = brim_mesh
+	brim.position = Vector3(0.0, 2.09, 0.0)
+	add_child(brim)
+
+	var crown: MeshInstance3D = MeshInstance3D.new()
+	var crown_mesh: CylinderMesh = CylinderMesh.new()
+	crown_mesh.top_radius = 0.23
+	crown_mesh.bottom_radius = 0.27
+	crown_mesh.height = 0.31
+	crown_mesh.material = brown
+	crown.mesh = crown_mesh
+	crown.position = Vector3(0.0, 2.22, 0.01)
+	add_child(crown)
+
+	var band: MeshInstance3D = MeshInstance3D.new()
+	var band_mesh: CylinderMesh = CylinderMesh.new()
+	band_mesh.top_radius = 0.274
+	band_mesh.bottom_radius = 0.274
+	band_mesh.height = 0.065
+	band_mesh.material = hat_band
+	band.mesh = band_mesh
+	band.position = Vector3(0.0, 2.10, 0.01)
+	add_child(band)
+
+	for side: float in [-1.0, 1.0]:
+		var glass: MeshInstance3D = MeshInstance3D.new()
+		var glass_mesh: CylinderMesh = CylinderMesh.new()
+		glass_mesh.top_radius = 0.105
+		glass_mesh.bottom_radius = 0.105
+		glass_mesh.height = 0.022
+		glass_mesh.material = lens
+		glass.mesh = glass_mesh
+		glass.position = Vector3(0.112 * side, 1.90, -0.236)
+		glass.rotation_degrees.x = 90.0
+		add_child(glass)
+
+		var temple: MeshInstance3D = MeshInstance3D.new()
+		var temple_mesh: BoxMesh = BoxMesh.new()
+		temple_mesh.size = Vector3(0.10, 0.012, 0.012)
+		temple_mesh.material = metal
+		temple.mesh = temple_mesh
+		temple.position = Vector3(0.225 * side, 1.90, -0.22)
+		add_child(temple)
+
+	var bridge: MeshInstance3D = MeshInstance3D.new()
+	var bridge_mesh: BoxMesh = BoxMesh.new()
+	bridge_mesh.size = Vector3(0.055, 0.012, 0.012)
+	bridge_mesh.material = metal
+	bridge.mesh = bridge_mesh
+	bridge.position = Vector3(0.0, 1.90, -0.245)
+	add_child(bridge)
+
+	var beard_core: MeshInstance3D = MeshInstance3D.new()
+	var beard_core_mesh: CapsuleMesh = CapsuleMesh.new()
+	beard_core_mesh.radius = 0.16
+	beard_core_mesh.height = 0.50
+	beard_core_mesh.material = beard_mat
+	beard_core.mesh = beard_core_mesh
+	beard_core.position = Vector3(0.0, 1.57, -0.255)
+	beard_core.rotation_degrees.x = 7.0
+	add_child(beard_core)
+
+	# Long curled moustache/beard arms. Several tapered capsules create the
+	# distinctive starburst silhouette from a normal checkout viewing distance.
+	var curl_specs: Array[Dictionary] = [
+		{"p":Vector3(-0.27,1.70,-0.27),"r":Vector3(0,0,-58),"h":0.46},
+		{"p":Vector3(0.27,1.70,-0.27),"r":Vector3(0,0,58),"h":0.46},
+		{"p":Vector3(-0.38,1.60,-0.24),"r":Vector3(0,0,-78),"h":0.54},
+		{"p":Vector3(0.38,1.60,-0.24),"r":Vector3(0,0,78),"h":0.54},
+		{"p":Vector3(-0.24,1.49,-0.26),"r":Vector3(0,0,-118),"h":0.44},
+		{"p":Vector3(0.24,1.49,-0.26),"r":Vector3(0,0,118),"h":0.44},
+		{"p":Vector3(-0.12,1.39,-0.27),"r":Vector3(0,0,-154),"h":0.40},
+		{"p":Vector3(0.12,1.39,-0.27),"r":Vector3(0,0,154),"h":0.40}
+	]
+	for i: int in range(curl_specs.size()):
+		var spec: Dictionary = curl_specs[i]
+		var curl: MeshInstance3D = MeshInstance3D.new()
+		var curl_mesh: CapsuleMesh = CapsuleMesh.new()
+		curl_mesh.radius = 0.035 if i < 4 else 0.030
+		curl_mesh.height = float(spec["h"])
+		curl_mesh.material = beard_light if i % 2 == 0 else beard_mat
+		curl.mesh = curl_mesh
+		curl.position = spec["p"]
+		curl.rotation_degrees = spec["r"]
+		add_child(curl)
+
+	var tip: MeshInstance3D = MeshInstance3D.new()
+	var tip_mesh: CapsuleMesh = CapsuleMesh.new()
+	tip_mesh.radius = 0.045
+	tip_mesh.height = 0.50
+	tip_mesh.material = beard_light
+	tip.mesh = tip_mesh
+	tip.position = Vector3(0.0, 1.30, -0.27)
+	tip.rotation_degrees.z = 8.0
+	add_child(tip)
 
 func walk_to(target: Vector3, duration: float = 2.5) -> Signal:
 	var resolved_target: Vector3 = _resolve_target(target)
