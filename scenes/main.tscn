@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://scripts/qa_tools.gd" id="8_qa"]
 [ext_resource type="Script" path="res://scripts/visual_quality_m7.gd" id="9_m7"]
 [ext_resource type="Script" path="res://scripts/cctv_render_filter.gd" id="10_cctv_filter"]
+[ext_resource type="Script" path="res://scripts/cctv_ui_polish.gd" id="11_cctv_ui"]
+[ext_resource type="Script" path="res://scripts/m8_audio_quality.gd" id="12_m8_audio"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.38
@@ -31,8 +33,14 @@ script = ExtResource("9_m7")
 [node name="CCTVRenderFilter" type="Node" parent="."]
 script = ExtResource("10_cctv_filter")
 
+[node name="CCTVUIPolish" type="Node" parent="."]
+script = ExtResource("11_cctv_ui")
+
 [node name="AudioAtmosphere" type="Node" parent="."]
 script = ExtResource("4_audio")
+
+[node name="M8AudioQuality" type="Node" parent="."]
+script = ExtResource("12_m8_audio")
 
 [node name="CheckoutVisuals" type="Node" parent="."]
 script = ExtResource("5_checkout")
