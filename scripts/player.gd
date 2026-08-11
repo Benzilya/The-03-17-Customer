@@ -1,12 +1,20 @@
 extends CharacterBody3D
 
-@export var move_speed: float = 4.2
+@export var walk_speed: float = 4.2
+@export var sprint_speed: float = 6.8
+@export var crouch_speed: float = 2.4
+@export var jump_velocity: float = 4.8
 @export var mouse_sensitivity: float = 0.0022
 @export var interaction_distance: float = 3.0
+@export var standing_camera_height: float = 0.65
+@export var crouching_camera_height: float = 0.18
+@export var crouch_transition_speed: float = 10.0
 
 @onready var camera: Camera3D = $Camera3D
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
 var gravity: float = float(ProjectSettings.get_setting("physics/3d/default_gravity", 9.8))
+var is_crouching: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -34,10 +42,19 @@ func _unhandled_input(event: InputEvent) -> void:
 				try_interact()
 
 func _physics_process(delta: float) -> void:
+	if get_tree().paused:
+		return
+
+	is_crouching = Input.is_physical_key_pressed(KEY_CTRL)
+	_update_crouch(delta)
+
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
-		velocity.y = 0.0
+		if Input.is_physical_key_pressed(KEY_SPACE) and not is_crouching:
+			velocity.y = jump_velocity
+		else:
+			velocity.y = 0.0
 
 	var input_vector: Vector2 = Vector2(
 		float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)),
@@ -45,14 +62,28 @@ func _physics_process(delta: float) -> void:
 	).normalized()
 	var direction: Vector3 = (transform.basis * Vector3(input_vector.x, 0.0, input_vector.y)).normalized()
 
+	var target_speed: float = walk_speed
+	if is_crouching:
+		target_speed = crouch_speed
+	elif Input.is_physical_key_pressed(KEY_SHIFT):
+		target_speed = sprint_speed
+
 	if direction.length_squared() > 0.0:
-		velocity.x = direction.x * move_speed
-		velocity.z = direction.z * move_speed
+		velocity.x = direction.x * target_speed
+		velocity.z = direction.z * target_speed
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, move_speed * 8.0 * delta)
-		velocity.z = move_toward(velocity.z, 0.0, move_speed * 8.0 * delta)
+		velocity.x = move_toward(velocity.x, 0.0, target_speed * 8.0 * delta)
+		velocity.z = move_toward(velocity.z, 0.0, target_speed * 8.0 * delta)
 
 	move_and_slide()
+
+func _update_crouch(delta: float) -> void:
+	var target_height: float = crouching_camera_height if is_crouching else standing_camera_height
+	camera.position.y = move_toward(camera.position.y, target_height, crouch_transition_speed * delta)
+	var capsule: CapsuleShape3D = collision_shape.shape as CapsuleShape3D
+	if capsule != null:
+		var target_capsule_height: float = 1.25 if is_crouching else 1.8
+		capsule.height = move_toward(capsule.height, target_capsule_height, crouch_transition_speed * delta)
 
 func try_interact() -> void:
 	var from: Vector3 = camera.global_position
