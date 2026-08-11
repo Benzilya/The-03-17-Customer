@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/checkout_visuals.gd" id="5_checkout"]
 [ext_resource type="Script" path="res://scripts/cinematic_0317.gd" id="6_cinematic"]
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="7_pause"]
+[ext_resource type="Script" path="res://scripts/qa_tools.gd" id="8_qa"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.38
@@ -33,6 +34,9 @@ script = ExtResource("6_cinematic")
 
 [node name="PauseMenu" type="Node" parent="."]
 script = ExtResource("7_pause")
+
+[node name="QATools" type="Node" parent="."]
+script = ExtResource("8_qa")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 position = Vector3(4.8, 1.0, -1.8)
