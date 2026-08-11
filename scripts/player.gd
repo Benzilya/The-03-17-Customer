@@ -9,12 +9,18 @@ extends CharacterBody3D
 @export var standing_camera_height: float = 0.65
 @export var crouching_camera_height: float = 0.18
 @export var crouch_transition_speed: float = 10.0
+@export var acceleration: float = 28.0
+@export var deceleration: float = 34.0
+@export var coyote_time: float = 0.11
+@export var jump_buffer_time: float = 0.12
 
 @onready var camera: Camera3D = $Camera3D
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 
 var gravity: float = float(ProjectSettings.get_setting("physics/3d/default_gravity", 9.8))
 var is_crouching: bool = false
+var coyote_left: float = 0.0
+var jump_buffer_left: float = 0.0
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -22,12 +28,17 @@ func _ready() -> void:
 	if config.load("user://settings.cfg")==OK:
 		var sensitivity_percent:=clampf(float(config.get_value("controls","mouse_sensitivity",100.0)),35.0,200.0)
 		mouse_sensitivity=0.0022*(sensitivity_percent/100.0)
+	call_deferred("_ensure_shared_runtime")
+
+func _ensure_shared_runtime() -> void:
 	var parent:=get_parent()
-	if parent!=null and parent.get_node_or_null("AccessibilityRuntime")==null:
-		var runtime:=Node.new()
-		runtime.name="AccessibilityRuntime"
-		runtime.set_script(load("res://scripts/accessibility_runtime.gd"))
-		parent.add_child.call_deferred(runtime)
+	if parent==null:return
+	if parent.get_node_or_null("AccessibilityRuntime")==null:
+		var runtime:=Node.new();runtime.name="AccessibilityRuntime";runtime.set_script(load("res://scripts/accessibility_runtime.gd"));parent.add_child(runtime)
+	if parent.get_node_or_null("PerformanceRuntime")==null:
+		var perf:=Node.new();perf.name="PerformanceRuntime";perf.set_script(load("res://scripts/performance_runtime.gd"));perf.add_to_group("performance_runtime");parent.add_child(perf)
+	if get_tree().get_first_node_in_group("pause_manager")==null:
+		var pause:=Node.new();pause.name="UniversalPause";pause.set_script(load("res://scripts/universal_pause.gd"));parent.add_child(pause)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -40,26 +51,39 @@ func _unhandled_input(event: InputEvent) -> void:
 			if key_event.physical_keycode == KEY_ESCAPE:
 				var pause_manager: Node = get_tree().get_first_node_in_group("pause_manager")
 				if pause_manager and pause_manager.has_method("toggle_pause"): pause_manager.call("toggle_pause")
-				else: Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
-			elif key_event.physical_keycode == KEY_E and not get_tree().paused: try_interact()
+			elif key_event.physical_keycode == KEY_E and not get_tree().paused:
+				try_interact()
+			elif key_event.physical_keycode == KEY_SPACE and not get_tree().paused:
+				jump_buffer_left = jump_buffer_time
 
 func _physics_process(delta: float) -> void:
 	if get_tree().paused:return
 	is_crouching = Input.is_physical_key_pressed(KEY_CTRL)
 	_update_crouch(delta)
+
+	if is_on_floor(): coyote_left = coyote_time
+	else: coyote_left = maxf(0.0,coyote_left-delta)
+	jump_buffer_left = maxf(0.0,jump_buffer_left-delta)
+
 	if not is_on_floor(): velocity.y -= gravity * delta
-	else:
-		if Input.is_physical_key_pressed(KEY_SPACE) and not is_crouching: velocity.y = jump_velocity
-		else: velocity.y = 0.0
+	else: velocity.y = minf(velocity.y,0.0)
+
+	if jump_buffer_left > 0.0 and coyote_left > 0.0 and not is_crouching:
+		velocity.y = jump_velocity
+		jump_buffer_left = 0.0
+		coyote_left = 0.0
+
 	var input_vector: Vector2 = Vector2(float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)),float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))).normalized()
 	var direction: Vector3 = (transform.basis * Vector3(input_vector.x, 0.0, input_vector.y)).normalized()
 	var target_speed: float = walk_speed
 	if is_crouching: target_speed = crouch_speed
 	elif Input.is_physical_key_pressed(KEY_SHIFT): target_speed = sprint_speed
-	if direction.length_squared() > 0.0:
-		velocity.x = direction.x * target_speed; velocity.z = direction.z * target_speed
-	else:
-		velocity.x = move_toward(velocity.x, 0.0, target_speed * 8.0 * delta); velocity.z = move_toward(velocity.z, 0.0, target_speed * 8.0 * delta)
+
+	var target_x := direction.x * target_speed
+	var target_z := direction.z * target_speed
+	var rate := acceleration if direction.length_squared() > 0.0 else deceleration
+	velocity.x = move_toward(velocity.x,target_x,rate*delta)
+	velocity.z = move_toward(velocity.z,target_z,rate*delta)
 	move_and_slide()
 
 func _update_crouch(delta: float) -> void:
