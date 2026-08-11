@@ -2,9 +2,9 @@
 
 This file is the project-wide progress tracker. Percentages are planning estimates, not measured completion metrics, and are updated as the playable build matures.
 
-## Current overall progress: ~35%
+## Current overall progress: ~37%
 
-The foundation and Night 1 vertical slice exist, but the project still needs runtime stabilization, authored-quality art/audio, Nights 2–6, endings, balancing, optimization, accessibility, packaging, and final QA.
+The foundation and Night 1 vertical slice exist. The current focus is Godot 4.7.x stabilization and real local playtesting before the larger authored-quality art/audio and Nights 2–6 content passes.
 
 ## Milestones
 
@@ -13,7 +13,7 @@ The foundation and Night 1 vertical slice exist, but the project still needs run
 - [x] M3 — First-person controller and procedural store blockout (6%)
 - [x] M4 — Night 1 gameplay systems: customers, checkout, CCTV, 03:17 decision (8%)
 - [x] M5 — First atmosphere pass: rain, lighting, audio prototype, cinematic 03:17, physical checkout props (7%)
-- [ ] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%)
+- [ ] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — IN PROGRESS
 - [ ] M7 — Visual quality pass: materials, store dressing, authored props, improved customer presentation, post-processing (10%)
 - [ ] M8 — Audio quality pass: authored ambience, scanner/door/footsteps/electrical sounds, mix and spatial audio (6%)
 - [ ] M9 — Night 2 and anomaly verification mechanics (7%)
@@ -49,6 +49,16 @@ Expected overall project progress at gate: 100%.
 2. Complete Night 1 end-to-end without blockers.
 3. Lock the visual target and replace the weakest procedural placeholders.
 4. Begin Night 2 only after the core interaction/CCTV/checkout loop is stable.
+
+## Current QA helpers
+
+The Night 1 scene includes development-only time jumps to accelerate local testing:
+
+- `F8` — jump to 02:30
+- `F9` — jump to 03:10
+- `F10` — jump to 03:16
+
+These are temporary QA controls and are intended to be disabled before release packaging.
 
 ## Art direction commitment
 
