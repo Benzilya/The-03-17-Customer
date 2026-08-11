@@ -1,30 +1,37 @@
 extends CharacterBody3D
 
-@export var move_speed := 4.2
-@export var mouse_sensitivity := 0.0022
-@export var interaction_distance := 3.0
+@export var move_speed: float = 4.2
+@export var mouse_sensitivity: float = 0.0022
+@export var interaction_distance: float = 3.0
 
 @onready var camera: Camera3D = $Camera3D
 
-var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity: float = float(ProjectSettings.get_setting("physics/3d/default_gravity", 9.8))
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		camera.rotation.x = clamp(
-			camera.rotation.x - event.relative.y * mouse_sensitivity,
+		var mouse_event: InputEventMouseMotion = event as InputEventMouseMotion
+		rotate_y(-mouse_event.relative.x * mouse_sensitivity)
+		camera.rotation.x = clampf(
+			camera.rotation.x - mouse_event.relative.y * mouse_sensitivity,
 			deg_to_rad(-80.0),
 			deg_to_rad(80.0)
 		)
 
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.physical_keycode == KEY_ESCAPE:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
-		elif event.physical_keycode == KEY_E:
-			try_interact()
+	if event is InputEventKey:
+		var key_event: InputEventKey = event as InputEventKey
+		if key_event.pressed and not key_event.echo:
+			if key_event.physical_keycode == KEY_ESCAPE:
+				var pause_manager: Node = get_tree().get_first_node_in_group("pause_manager")
+				if pause_manager and pause_manager.has_method("toggle_pause"):
+					pause_manager.call("toggle_pause")
+				else:
+					Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
+			elif key_event.physical_keycode == KEY_E and not get_tree().paused:
+				try_interact()
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -32,13 +39,13 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = 0.0
 
-	var input_vector := Vector2(
+	var input_vector: Vector2 = Vector2(
 		float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A)),
 		float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))
 	).normalized()
-	var direction := (transform.basis * Vector3(input_vector.x, 0.0, input_vector.y)).normalized()
+	var direction: Vector3 = (transform.basis * Vector3(input_vector.x, 0.0, input_vector.y)).normalized()
 
-	if direction:
+	if direction.length_squared() > 0.0:
 		velocity.x = direction.x * move_speed
 		velocity.z = direction.z * move_speed
 	else:
@@ -48,15 +55,16 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func try_interact() -> void:
-	var from := camera.global_position
-	var to := from + (-camera.global_transform.basis.z * interaction_distance)
-	var query := PhysicsRayQueryParameters3D.create(from, to)
+	var from: Vector3 = camera.global_position
+	var to: Vector3 = from + (-camera.global_transform.basis.z * interaction_distance)
+	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(from, to)
 	query.exclude = [self]
-	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	var hit: Dictionary = get_world_3d().direct_space_state.intersect_ray(query)
 
 	if hit.is_empty():
 		return
 
-	var collider = hit.get("collider")
+	var collider_value: Variant = hit.get("collider")
+	var collider: Object = collider_value as Object
 	if collider and collider.has_method("interact"):
-		collider.interact(self)
+		collider.call("interact", self)
