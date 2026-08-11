@@ -12,6 +12,7 @@ var shift_speed: float = 14.5
 var route: String = "uncertain_memory"
 var threat_level: int = 0
 var event_flags: Dictionary = {}
+var night_locked: bool = false
 
 func _ready() -> void:
 	add_to_group("game")
@@ -22,7 +23,8 @@ func _ready() -> void:
 	_show_opening()
 
 func _process(delta: float) -> void:
-	shift_minutes += delta * shift_speed
+	if not night_locked:
+		shift_minutes += delta * shift_speed
 	var total: int = int(shift_minutes) % 360
 	clock_label.text = "%02d:%02d" % [int(total / 60), total % 60]
 	_run_events(total)
@@ -54,6 +56,49 @@ func _run_events(minutes: int) -> void:
 	if minutes >= 150 and not event_flags.has("future_memory"):
 		event_flags["future_memory"] = true
 		show_message(_t("Your own handwriting appears on a fresh receipt: 'Do not believe the customer at 03:17.'", "На свежем чеке появляется твой почерк: «Не верь покупателю в 03:17»."), 6.0)
+	if minutes >= 197 and not event_flags.has("night4_0317"):
+		event_flags["night4_0317"] = true
+		shift_minutes = 197.0
+		night_locked = true
+		_start_0317_event()
+
+func _start_0317_event() -> void:
+	clock_label.text = "03:17"
+	var data: Dictionary = _read_save()
+	var memory_checked: bool = bool(data.get("night_4_memory_checked", false))
+	var memory_correct: bool = bool(data.get("night_4_memory_correct", false))
+	var trusted_source: String = str(data.get("night_4_trusted_source", "none"))
+	if not memory_checked:
+		show_message(_t("03:17\nEvery monitor shows your own face looking back from behind the register.", "03:17\nНа каждом мониторе твоё лицо смотрит на тебя из-за кассы."), 6.0)
+		objective_label.text = _t("OBJECTIVE: You reached 03:17 without choosing a memory anchor.", "ЗАДАЧА: Ты дошёл до 03:17, не выбрав якорь памяти.")
+	elif memory_correct:
+		show_message(_t("03:17\nThe cameras rewrite the store. Your handwritten note does not change.", "03:17\nКамеры переписывают магазин. Твоя рукописная записка не меняется."), 6.0)
+		objective_label.text = _t("OBJECTIVE: Hold onto the version you wrote before the cameras changed.", "ЗАДАЧА: Держись версии, которую записал до изменения камер.")
+	else:
+		show_message(_t("03:17\nThe source you trusted updates itself. It now says you were never employed here.", "03:17\nИсточник, которому ты поверил, обновляется. Теперь он утверждает, что ты здесь никогда не работал."), 6.0)
+		objective_label.text = _t("OBJECTIVE: Your memory anchor is compromised.", "ЗАДАЧА: Твой якорь памяти скомпрометирован.")
+	await get_tree().create_timer(6.0).timeout
+	_finish_night(memory_checked, memory_correct, trusted_source)
+
+func _finish_night(memory_checked: bool, memory_correct: bool, trusted_source: String) -> void:
+	var data: Dictionary = _read_save()
+	var integrity: int = int(data.get("memory_integrity", 0))
+	var night5_route: String = "fractured_identity"
+	if memory_checked and memory_correct and integrity >= 2:
+		night5_route = "anchored_identity"
+	elif memory_checked:
+		night5_route = "uncertain_identity"
+	data["night"] = 5
+	data["night_4_complete"] = true
+	data["night_4_0317_survived"] = true
+	data["night_4_final_memory_correct"] = memory_correct
+	data["night_4_final_trusted_source"] = trusted_source
+	data["night_5_route"] = night5_route
+	var file: FileAccess = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if file != null:
+		file.store_string(JSON.stringify(data))
+	show_message(_t("NIGHT 4 COMPLETE\nAt 03:17 the cameras stopped documenting reality. They started editing it.", "НОЧЬ 4 ЗАВЕРШЕНА\nВ 03:17 камеры перестали фиксировать реальность. Они начали её редактировать."), 7.0)
+	objective_label.text = _t("Night 5 unlocked.", "Ночь 5 разблокирована.")
 
 func _build_environment() -> void:
 	var world: WorldEnvironment = WorldEnvironment.new()
