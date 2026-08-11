@@ -1,8 +1,8 @@
 # The 03:17 Customer — Production Roadmap
 
-## Current overall progress: ~85%
+## Current overall progress: ~90%
 
-M1–M11 are now feature-implemented. M9–M11 retain runtime QA debt in Godot 4.7.x, and M8 still needs the final recorded-CC0 SFX import/listening pass. M12 is next: progression/save robustness, settings completeness, subtitles/accessibility and full RU/EN localization audit.
+M1–M12 are now feature-implemented. M13 is next: performance/graphics presets, input polish, bug fixing and balancing. Runtime QA debt remains for Nights 2–6 and the final recorded-CC0 SFX import/listening pass.
 
 ## Milestones
 - [x] M1 — Concept, story hook, GDD, repository foundation (8%)
@@ -11,50 +11,50 @@ M1–M11 are now feature-implemented. M9–M11 retain runtime QA debt in Godot 4
 - [x] M4 — Night 1 gameplay systems: customers, checkout, CCTV, 03:17 decision (8%)
 - [x] M5 — First atmosphere pass: rain, lighting, audio prototype, cinematic 03:17, physical checkout props (7%)
 - [x] M6 — Godot 4.7.x runtime stabilization and complete Night 1 playtest (5%) — GATE A
-- [x] M7 — Visual quality/readability pass: store dressing, improved customers, bilingual Night 1 UI, manager-note modal, CCTV presentation (10%)
+- [x] M7 — Visual quality/readability pass (10%)
 - [x] M8 — Audio quality implementation pass (6%) — RECORDED-SFX QA DEBT
 - [x] M9 — Night 2 and anomaly verification mechanics (7%) — FEATURE COMPLETE / RUNTIME QA DEBT
 - [x] M10 — Nights 3–4, evidence/lore progression, advanced CCTV contradictions (10%) — FEATURE COMPLETE / RUNTIME QA DEBT
 - [x] M11 — Nights 5–6, final 03:17 confrontation, four ending routes (10%) — FEATURE COMPLETE / RUNTIME QA DEBT
-- [ ] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%)
+- [x] M12 — Save/load progression, settings completeness, subtitles/accessibility, full English/Russian localization (5%) — FEATURE COMPLETE / RUNTIME QA DEBT
 - [ ] M13 — Performance/graphics presets, input polish, bug fixing and balancing (5%)
 - [ ] M14 — Full-game QA, credits/legal/license audit, export presets and release-candidate packaging (7%)
 
 Total production milestones: 14 (M1–M14).
 
-## M11 closed scope
-- Night 5 identity verification: badge, biometric and handwritten manager record.
-- Night 5 03:17 Namekeeper confrontation and paper/system identity choice.
-- Shared employee rest-room/bed transition carries Night 5 directly into Night 6.
-- Night 6 inherits memory, identity, threat and previous 03:17 decisions.
-- Active final 03:17 Customer confrontation with three player choices.
-- Four implemented endings: Escape, Witness, Merge, Replaced.
-- Persistent `ending_id`, `final_choice`, `game_complete` and `unlocked_endings` history.
-- Ending screen supports replay Night 6 and return to main menu.
-- Late-game lore establishes 03:17 as synchronized record/identity corruption; paper written before a corruption event acts as an independent anchor.
-- The 417-day Merge history is a fabricated identity-cycle, not a literal time-loop requirement.
-- RU/EN player-facing presentation is implemented for current M11 content.
+## M12 closed scope
+- Added save schema/version migration and validation for Nights 1–6.
+- Added primary-save recovery from `save_backup.json`.
+- Bed transitions now create validated recoverable checkpoints before scene changes.
+- New Game resets progress/backup without erasing user preferences.
+- Main-menu Continue consumes validated progress and retains legacy `save.cfg` fallback.
+- Persistent settings now include master volume, fullscreen, language and mouse sensitivity.
+- Accessibility settings now include transient subtitles/messages, reduced flashing and Small/Normal/Large text scale.
+- Accessibility runtime is automatically injected by the shared player controller in every night scene.
+- Main-menu glitch flashing respects Reduce Flashing.
+- Added Reset Settings without deleting game progress.
+- Added Ending Archive showing discovered endings while hiding locked ending names.
+- Added RU/EN labels for all new M12 controls and ending-history presentation.
+- Added `docs/M12_QA.md` with save recovery, settings, accessibility and localization test requirements.
 
-Detailed M11 verification checklist: `docs/M11_QA.md`.
-
-## M12 next
-1. Harden save schema and progression recovery for Nights 1–6.
-2. Add/finish settings persistence and reset behavior.
-3. Add subtitle controls and accessibility options.
-4. Audit every player-facing string in RU/EN.
-5. Add ending-history presentation in the menu if it fits the final UI.
+## M13 next
+1. Add graphics/performance presets appropriate for Godot Compatibility renderer.
+2. Polish movement/input feel and verify crouch/jump/sprint edge cases.
+3. Run parser/runtime bug-fix passes across Nights 2–6.
+4. Balance timings, interaction ranges, threat feedback and late-game readability.
+5. Perform recorded-SFX import/mix cleanup where binaries are available.
 
 ## Cross-milestone QA debt
+- Run Nights 2–6 in Godot 4.7.x at 1280x720 in RU and EN.
+- Verify all rest-room/bed transitions, save recovery paths and four endings.
+- Verify M12 accessibility options in real gameplay.
 - Physically import selected CC0 ordinary SFX and perform listening/mix QA.
-- Run Nights 2–6 in Godot 4.7.x at 1280x720 in both RU and EN.
-- Verify rest-room geometry and bed interaction in Nights 1–5.
-- Verify every save transition and all four endings.
-- Fix all parser/runtime blockers before Gate C is declared runtime-clean.
+- Fix all parser/runtime blockers before Gate D.
 
 ## Gates
 - Gate A — first playable: reached.
-- Gate B — polished public-facing Night 1: pending recorded-audio QA.
-- Gate C — content-complete alpha: feature scope reached at ~85%; runtime-clean status still pending QA.
+- Gate B — polished public-facing Night 1: pending final recorded-audio QA.
+- Gate C — content-complete alpha: feature scope reached.
 - Gate D — release candidate: 100%.
 
 ## Reporting format
