@@ -10,16 +10,38 @@ var color:Color=Color(0.45,0.48,0.52)
 var character_style:String="default"
 
 func setup(customer_name:String,is_anomalous:bool,body_color:Color,style:String="default")->void:
-	display_name=customer_name; anomalous=is_anomalous; color=body_color; character_style=style; _build_body()
-	if character_style=="signature_beard" and not anomalous: _build_signature_customer()
+	display_name=customer_name
+	anomalous=is_anomalous
+	color=body_color
+	character_style=style
+	_build_body()
+	if character_style=="signature_beard" and not anomalous:
+		_build_signature_customer()
 
 func _material(c:Color,roughness:float=0.78,metallic:float=0.0)->StandardMaterial3D:
-	var m:=StandardMaterial3D.new(); m.albedo_color=c; m.roughness=roughness; m.metallic=metallic; return m
+	var m:=StandardMaterial3D.new()
+	m.albedo_color=c
+	m.roughness=roughness
+	m.metallic=metallic
+	return m
+
 func _add(mesh:PrimitiveMesh,pos:Vector3,mat:Material,rot:Vector3=Vector3.ZERO,scale_v:Vector3=Vector3.ONE)->void:
-	mesh.material=mat; var n:=MeshInstance3D.new(); n.mesh=mesh; n.position=pos; n.rotation_degrees=rot; n.scale=scale_v; add_child(n)
+	mesh.material=mat
+	var n:=MeshInstance3D.new()
+	n.mesh=mesh
+	n.position=pos
+	n.rotation_degrees=rot
+	n.scale=scale_v
+	# Layer 1 = ordinary world/CCTV. Layer 2 = 03:17 anomaly, visible to the
+	# player's normal camera but intentionally excluded from CCTV cameras.
+	n.layers=2 if anomalous else 1
+	add_child(n)
 
 func _build_body()->void:
-	var clothes:=_material(color,0.86); var dark:=_material(color.darkened(0.28),0.90); var skin:=_material(Color(0.64,0.53,0.46) if not anomalous else Color(0.49,0.50,0.49),0.88); var shoe_mat:=_material(Color(0.035,0.038,0.04),0.72,0.08)
+	var clothes:=_material(color,0.86)
+	var dark:=_material(color.darkened(0.28),0.90)
+	var skin:=_material(Color(0.64,0.53,0.46) if not anomalous else Color(0.49,0.50,0.49),0.88)
+	var shoe_mat:=_material(Color(0.035,0.038,0.04),0.72,0.08)
 	var torso:=CapsuleMesh.new(); torso.radius=0.32; torso.height=1.08; _add(torso,Vector3(0,1.08,0),clothes)
 	var shoulders:=BoxMesh.new(); shoulders.size=Vector3(0.78,0.18,0.34); _add(shoulders,Vector3(0,1.45,0),clothes)
 	var chest:=BoxMesh.new(); chest.size=Vector3(0.50,0.55,0.06); _add(chest,Vector3(0,1.22,-0.285),dark)
@@ -38,7 +60,6 @@ func _build_body()->void:
 		var halo:=OmniLight3D.new(); halo.position=Vector3(0,1.72,0.10); halo.light_color=Color(0.40,0.50,0.62); halo.light_energy=0.075; halo.omni_range=1.25; add_child(halo)
 
 func _build_signature_customer()->void:
-	# M7 second pass: cleaner beard mass, smaller glasses and restrained curled tips.
 	var coat:=_material(Color(0.18,0.075,0.035),0.90); var hat:=_material(Color(0.15,0.065,0.03),0.84); var band:=_material(Color(0.055,0.025,0.018),0.74); var beard:=_material(Color(0.42,0.255,0.105),0.98); var beard_hi:=_material(Color(0.57,0.37,0.17),0.98); var lens:=_material(Color(0.018,0.012,0.010),0.14,0.12); var metal:=_material(Color(0.48,0.37,0.23),0.30,0.55)
 	var coat_mesh:=BoxMesh.new(); coat_mesh.size=Vector3(0.68,0.70,0.10); _add(coat_mesh,Vector3(0,1.18,-0.315),coat)
 	var brim:=CylinderMesh.new(); brim.top_radius=0.31; brim.bottom_radius=0.31; brim.height=0.045; _add(brim,Vector3(0,2.08,0),hat)
@@ -56,7 +77,15 @@ func _build_signature_customer()->void:
 		var side_lock:=CapsuleMesh.new(); side_lock.radius=0.022; side_lock.height=0.31; _add(side_lock,Vector3(0.17*side,1.54,-0.255),beard,Vector3(0,0,24*side))
 
 func walk_to(target:Vector3,duration:float=2.5)->Signal:
-	var resolved:=_resolve_target(target); look_at(Vector3(resolved.x,global_position.y+1.0,resolved.z),Vector3.UP); var tween:=create_tween(); tween.set_trans(Tween.TRANS_SINE); tween.set_ease(Tween.EASE_IN_OUT); tween.tween_property(self,"global_position",resolved,duration); return tween.finished
+	var resolved:=_resolve_target(target)
+	look_at(Vector3(resolved.x,global_position.y+1.0,resolved.z),Vector3.UP)
+	var tween:=create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self,"global_position",resolved,duration)
+	return tween.finished
+
 func _resolve_target(target:Vector3)->Vector3:
-	if Vector2(target.x-LEGACY_REGISTER_TARGET.x,target.z-LEGACY_REGISTER_TARGET.z).length()<=REGISTER_TARGET_EPSILON: return REGISTER_WAIT_POSITION
+	if Vector2(target.x-LEGACY_REGISTER_TARGET.x,target.z-LEGACY_REGISTER_TARGET.z).length()<=REGISTER_TARGET_EPSILON:
+		return REGISTER_WAIT_POSITION
 	return target
