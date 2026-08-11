@@ -57,23 +57,19 @@ func run_night_events(total_minutes: int) -> void:
 			{"name":"Black Coffee", "price":2.49},
 			{"name":"Beef Jerky", "price":3.99}
 		])
-
 	if total_minutes >= 72 and not event_flags.has("customer_2"):
 		event_flags["customer_2"] = true
 		spawn_customer("Nurse", false, Color(0.36, 0.42, 0.38), "Just water, please. Night shift too?", [
 			{"name":"Spring Water", "price":1.79}
 		])
-
 	if total_minutes >= 150 and not event_flags.has("warning"):
 		event_flags["warning"] = true
 		show_message("02:30\nThe fluorescent lights buzz louder than before.", 4.0)
 		cctv_status = "SIGNAL NOISE INCREASING"
-
 	if total_minutes >= 190 and not event_flags.has("pre_317"):
 		event_flags["pre_317"] = true
 		objective_label.text = "OBJECTIVE: Keep an eye on the entrance and CCTV."
 		show_message("03:10\nThe parking lot has gone completely quiet.", 4.0)
-
 	if total_minutes >= 197 and not event_flags.has("customer_317"):
 		event_flags["customer_317"] = true
 		shift_minutes = 197.0
@@ -146,10 +142,7 @@ func update_checkout_ui() -> void:
 		if i < scanned_count:
 			total += float(item["price"])
 	checkout_total.text = "TOTAL  $%.2f" % total
-	if scanned_count < current_items.size():
-		checkout_action.text = "SCAN NEXT ITEM"
-	else:
-		checkout_action.text = "TAKE PAYMENT"
+	checkout_action.text = "SCAN NEXT ITEM" if scanned_count < current_items.size() else "TAKE PAYMENT"
 
 func checkout_action_pressed() -> void:
 	if scanned_count < current_items.size():
@@ -256,7 +249,7 @@ func build_store() -> void:
 	make_box("FrontWallL", Vector3(7.0, 4.2, 0.25), Vector3(-5.5, 2.1, -7), Color(0.20, 0.22, 0.23))
 	make_box("FrontWallR", Vector3(7.0, 4.2, 0.25), Vector3(5.5, 2.1, -7), Color(0.20, 0.22, 0.23))
 	make_box("DoorHeader", Vector3(4.0, 0.9, 0.25), Vector3(0, 3.75, -7), Color(0.20, 0.22, 0.23))
-	var register := make_interactable_box("Register", Vector3(4.2, 1.05, 1.25), Vector3(4.6, 0.525, -3.8), Color(0.13, 0.20, 0.18), "REGISTER_DYNAMIC")
+	var register := make_interactable_box("Register", Vector3(4.2, 1.05, 1.25), Vector3(4.6, 0.525, -3.8), Color(0.13, 0.20, 0.18), "REGISTER 01")
 	register.set_meta("register", true)
 	make_box("RegisterTop", Vector3(4.35, 0.08, 1.38), Vector3(4.6, 1.09, -3.8), Color(0.08, 0.09, 0.09))
 	make_box("Scanner", Vector3(0.8, 0.07, 0.45), Vector3(4.1, 1.17, -3.55), Color(0.05, 0.12, 0.16), false)
@@ -276,7 +269,7 @@ func build_store() -> void:
 		fridge_light.light_energy = 1.2
 		fridge_light.omni_range = 4.5
 		add_child(fridge_light)
-	var cctv := make_interactable_box("CCTV", Vector3(1.15, 0.75, 0.6), Vector3(6.8, 1.45, -3.75), Color(0.04, 0.05, 0.055), "CCTV_DYNAMIC")
+	var cctv := make_interactable_box("CCTV", Vector3(1.15, 0.75, 0.6), Vector3(6.8, 1.45, -3.75), Color(0.04, 0.05, 0.055), "CCTV")
 	cctv.set_meta("cctv", true)
 	for x in [-5.5, 0.0, 5.5]:
 		for z in [-3.5, 1.0, 5.0]:
@@ -388,8 +381,7 @@ func build_checkout_ui(layer: CanvasLayer) -> void:
 	header.text = "MORROW MARKET / REGISTER 01"
 	header.add_theme_font_size_override("font_size", 22)
 	box.add_child(header)
-	var line := HSeparator.new()
-	box.add_child(line)
+	box.add_child(HSeparator.new())
 	checkout_items = VBoxContainer.new()
 	checkout_items.custom_minimum_size = Vector2(500, 220)
 	box.add_child(checkout_items)
@@ -489,15 +481,16 @@ func show_message(text: String, seconds := 4.0) -> void:
 	message_timer.wait_time = seconds
 	message_timer.start()
 
-func on_interaction(body: Node) -> void:
-	if body.has_meta("manager_note") and not note_read:
-		note_read = true
-		objective_label.text = "OBJECTIVE: Work the shift. Check CCTV if anything feels wrong."
+func on_interaction(body: Node) -> bool:
+	if body.has_meta("manager_note"):
+		if not note_read:
+			note_read = true
+			objective_label.text = "OBJECTIVE: Work the shift. Check CCTV if anything feels wrong."
+		return false
 	if body.has_meta("register"):
 		open_checkout()
-		return
+		return true
 	if body.has_meta("cctv"):
 		open_cctv()
-		return
-	if body.get("message"):
-		show_message(str(body.get("message")), 5.0)
+		return true
+	return false
