@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/night3.gd" id="1_night3"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="2_player"]
 [ext_resource type="Script" path="res://scripts/night3_archive_system.gd" id="3_archive"]
 [ext_resource type="Script" path="res://scripts/night3_physical_truth.gd" id="4_physical"]
+[ext_resource type="Script" path="res://scripts/night3_completion.gd" id="5_completion"]
 
 [sub_resource type="CapsuleShape3D" id="Capsule_player"]
 radius = 0.38
@@ -17,6 +18,9 @@ script = ExtResource("3_archive")
 
 [node name="PhysicalTruth" type="Node" parent="."]
 script = ExtResource("4_physical")
+
+[node name="Completion" type="Node" parent="."]
+script = ExtResource("5_completion")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 position = Vector3(4.8, 1.0, -1.8)
