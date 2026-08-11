@@ -2,6 +2,7 @@ extends Node
 
 const MAIN_MENU_SCENE: String = "res://scenes/main_menu.tscn"
 const GAME_SCENE: String = "res://scenes/main.tscn"
+const LOCALIZATION = preload("res://scripts/localization.gd")
 
 var overlay: ColorRect
 var panel: PanelContainer
@@ -11,6 +12,9 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	add_to_group("pause_manager")
 	_build_pause_ui()
+
+func _t(en_text: String, ru_text: String) -> String:
+	return ru_text if LOCALIZATION.get_language() == "ru" else en_text
 
 func toggle_pause() -> void:
 	if paused:
@@ -72,27 +76,25 @@ func _build_pause_ui() -> void:
 	panel.add_child(box)
 
 	var title: Label = Label.new()
-	title.text = "SHIFT PAUSED"
+	title.text = _t("SHIFT PAUSED", "СМЕНА ПРИОСТАНОВЛЕНА")
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 32)
+	title.add_theme_font_size_override("font_size", 30)
 	box.add_child(title)
 
 	var subtitle: Label = Label.new()
-	subtitle.text = "MORROW MARKET / NIGHT 1"
+	subtitle.text = _t("MORROW MARKET / NIGHT 1", "MORROW MARKET / НОЧЬ 1")
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle.modulate = Color(0.62, 0.68, 0.66)
 	box.add_child(subtitle)
 
-	var divider: HSeparator = HSeparator.new()
-	box.add_child(divider)
-
-	_add_button(box, "RESUME SHIFT", _resume)
-	_add_button(box, "RESTART NIGHT 1", _restart_shift)
-	_add_button(box, "RETURN TO MAIN MENU", _return_to_menu)
-	_add_button(box, "QUIT GAME", _quit_game)
+	box.add_child(HSeparator.new())
+	_add_button(box, _t("RESUME SHIFT", "ПРОДОЛЖИТЬ"), _resume)
+	_add_button(box, _t("RESTART NIGHT 1", "НАЧАТЬ НОЧЬ 1 ЗАНОВО"), _restart_shift)
+	_add_button(box, _t("RETURN TO MAIN MENU", "ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ"), _return_to_menu)
+	_add_button(box, _t("QUIT GAME", "ВЫЙТИ ИЗ ИГРЫ"), _quit_game)
 
 	var hint: Label = Label.new()
-	hint.text = "ESC — resume"
+	hint.text = _t("ESC — resume", "ESC — продолжить")
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.modulate = Color(0.48, 0.54, 0.52)
 	box.add_child(hint)
